@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    localStorage.setItem('name', 'Birk')
-    $.getJSON('dataBas.json', function(response) {
+    $.getJSON("dataBas.json", function(response) {
+>>>>>>> d8afd35cf4c66377e96d5193332b88105c7c1d28
         console.log(response) // resp = object
         console.log(response.products[0].productName)
-        for(let i = 0; i < response.products.length; i++) {
-            const etiquetteHolder = $('#etiquette-holder')
+        for (let i = 0; i < response.products.length; i++) {
+            const etiquetteHolder = $("#etiquette-holder")
             console.log(etiquetteHolder)
             etiquetteHolder.append(`
                 <div>
@@ -13,10 +13,12 @@ $(document).ready(function() {
                     <p>${response.products[i].price}</p>
                     <button id="decrease${i}">-</button>
                     <input id="${i}">
+                    
                     <button class="" id="increase${i}">+</button>
                     <br>
                     <button class="addBtn" id="add${i}">Lägg till</button>
                 </div`)
+            console.log(etiquetteHolder)
         }
         
         let addBtns = $('.addBtn')
@@ -26,6 +28,5 @@ $(document).ready(function() {
         addBtns.click(function(){
             $('#' + this.id).siblings('input')[0].value
         })
-
-    }) 
+    })
 })

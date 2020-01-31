@@ -1,3 +1,13 @@
 body {
     background: orange;
 }
+
+section {
+    display: grid;
+    grid-template: 1fr / 2fr 1fr;
+}
+.cart {
+    background: hotpink;
+    border: 2px solid seagreen;
+    max-height: 500px;
+}
