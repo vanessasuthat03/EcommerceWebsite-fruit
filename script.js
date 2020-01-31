@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $.getJSON("dataBas.json", function(response) {
->>>>>>> d8afd35cf4c66377e96d5193332b88105c7c1d28
         console.log(response) // resp = object
         console.log(response.products[0].productName)
         for (let i = 0; i < response.products.length; i++) {
@@ -26,7 +25,10 @@ $(document).ready(function() {
         //console.log($('#add0'))
         //console.log(document.querySelector('#add0'))
         addBtns.click(function(){
-            $('#' + this.id).siblings('input')[0].value
+            $('#' + this.id)    // hämtar ett Element i "jQuery-format" för att kunna köra metoden siblings()
+            .siblings('input')  // hämtar alla input-element i en "konstig array" med prototypen object
+            [0] // därför kan vi ta index 0 och få första (och i det här fallet det enda) input-elementet i vanligt format
+            .value  // sen kan vi ta value på det
         })
     })
 })
