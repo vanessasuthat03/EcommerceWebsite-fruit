@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $.getJSON("dataBas.json", function(response) {
->>>>>>> d8afd35cf4c66377e96d5193332b88105c7c1d28
         console.log(response) // resp = object
         console.log(response.products[0].productName)
         for (let i = 0; i < response.products.length; i++) {
