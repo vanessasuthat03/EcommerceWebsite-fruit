@@ -10,9 +10,5 @@
         {"id": "8", "productName": "coconut", "price": "3", "img": "image/banana.png"},    
         {"id": "9", "productName": "pear", "price": "10", "img": "image/banana.png"},    
         {"id": "10", "productName": "apple", "price": "22", "img": "image/banana.png"}
-    ],
-   
-    "cart": [
-    
     ]
 }

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    localStorage.setItem('name', 'Birk')
     $.getJSON('dataBas.json', function(response) {
         console.log(response) // resp = object
         console.log(response.products[0].productName)
@@ -17,11 +18,13 @@ $(document).ready(function() {
                     <button class="addBtn" id="add${i}">Lägg till</button>
                 </div`)
         }
+        
         let addBtns = $('.addBtn')
         console.log(addBtns)
+        //console.log($('#add0'))
+        //console.log(document.querySelector('#add0'))
         addBtns.click(function(){
-            
-            alert(this.id)
+            $('#' + this.id).siblings('input')[0].value
         })
 
     }) 
