@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    localStorage.clear()
     $.getJSON("dataBas.json", function(response) {
         // console.log(response) // resp = object
         for (let i = 0; i < response.products.length; i++) {
@@ -19,12 +20,43 @@ $(document).ready(function() {
         let addBtns = $('.addBtn')
 
         addBtns.click(function(){
-            let inputValue = $("#" + this.id).siblings("input")[0].value
-            console.log(inputValue)
-            let price = $("#" + this.id).siblings("p")[0].textContent
-            console.log(price)
-            let name = $("#" + this.id).siblings("h3")[0].textContent
-            console.log(name)
+            let quantity = $(this).siblings("input").val()
+            let price = $(this).siblings("p").text()
+            let product = $(this).siblings("h3").text()
+            let cartArr = []
+            if(localStorage.getItem('cartArr') === null) {
+                cartArr.push({quantity: quantity, product: product, price: price})
+                localStorage.setItem('cartArr', JSON.stringify(cartArr))
+                $('table').append(
+                    `<tr>
+                        <td>${JSON.parse(localStorage.getItem('cartArr'))[0].quantity}</td>
+                        <td>${JSON.parse(localStorage.getItem('cartArr'))[0].product}</td>
+                        <td>${JSON.parse(localStorage.getItem('cartArr'))[0].price}</td>
+                        <td><button id="dltBtn">Delete</td>
+                    </tr>`)
+            } else {
+                cartArr = JSON.parse(localStorage.getItem('cartArr'))
+                const duplicate = cartArr.find(function(element) {
+                    return element.product === product
+                })
+                console.log(duplicate)
+                cartArr.push({quantity: quantity, product: product, price: price})
+                localStorage.setItem('cartArr', JSON.stringify(cartArr))
+                let lastElementIndexInArray = cartArr.length - 1
+                $('table').append(
+                    `<tr>
+                        <td>${JSON.parse(localStorage.getItem('cartArr'))[lastElementIndexInArray].quantity}</td>
+                        <td>${JSON.parse(localStorage.getItem('cartArr'))[lastElementIndexInArray].product}</td>
+                        <td>${JSON.parse(localStorage.getItem('cartArr'))[lastElementIndexInArray].price}</td>
+                        <td><button id="dltBtn">Delete</td>
+                    </tr>`)
+            }
+            var ages = [3, 10, 18, 20];
+
+            const found = ages.find(function(element) {
+                return element === 20
+            })
+            console.log(found)
         })
     })
 })
