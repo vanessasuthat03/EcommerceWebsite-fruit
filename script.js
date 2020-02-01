@@ -51,12 +51,6 @@ $(document).ready(function() {
                         <td><button id="dltBtn">Delete</td>
                     </tr>`)
             }
-            var ages = [3, 10, 18, 20];
-
-            const found = ages.find(function(element) {
-                return element === 20
-            })
-            console.log(found)
         })
     })
 })
