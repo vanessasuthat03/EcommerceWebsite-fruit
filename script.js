@@ -25,34 +25,38 @@ $(document).ready(function() {
         let addBtns = $('.addBtn')
 
         addBtns.click(function(){
-
-            // Cache:a antal, produkt och pris
-
-            let newQuantity = $(this).siblings("input").val()
-            let newProduct = $(this).siblings("h3").text()
-            let newPrice = $(this).siblings("p").text()
-            let cartArr = []
-
-            if(localStorage.getItem('cartArr') !== null) { // om cartArr redan finns i localStorage
-                cartArr = JSON.parse(localStorage.getItem('cartArr')) // hämta nuvarande localStorage
-            }
-            cartArr.push({quantity: newQuantity, product: newProduct, price: newPrice}) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
-            localStorage.setItem('cartArr', JSON.stringify(cartArr)) // skicka arrayen till localStorage
-
-            // och lägg till i vår table-tag
-
-            $('table').append(
-                `<tr>
-                    <td>${newQuantity}</td>
-                    <td>${newProduct}</td>
-                    <td>${newPrice}</td>
-                    <td><button id="dltBtn">Delete</td>
-                </tr>`)
+            addToCart(this)
             
             // const duplicate = cartArr.find(function(element) {
             //     return element.product === newProduct // om frukten redan finns i varukorgen så sparas det objektet i duplicate-variabeln
             // })
         })
+
+    function addToCart(addBtn) {
+
+        // Cache:a antal, produkt och pris
+
+        let newQuantity = $(addBtn).siblings("input").val()
+        let newProduct = $(addBtn).siblings("h3").text()
+        let newPrice = $(addBtn).siblings("p").text()
+        let cartArr = []
+
+        if(localStorage.getItem('cartArr') !== null) { // om cartArr redan finns i localStorage
+            cartArr = JSON.parse(localStorage.getItem('cartArr')) // hämta nuvarande localStorage
+        }
+        cartArr.push({quantity: newQuantity, product: newProduct, price: newPrice}) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
+        localStorage.setItem('cartArr', JSON.stringify(cartArr)) // skicka arrayen till localStorage
+
+        // och lägg till i vår table-tag
+
+        $('table').append(
+            `<tr>
+                <td>${newQuantity}</td>
+                <td>${newProduct}</td>
+                <td>${newPrice}</td>
+                <td><button id="dltBtn">Delete</td>
+            </tr>`)
+    }
     })
 })
             
