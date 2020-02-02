@@ -153,20 +153,15 @@ $(document).ready(function() {
         document.querySelector("#fruit-list").addEventListener("click", e => {
             console.log(e.target)
             if (e.target.classList.contains("delete")) {
-                let cartArr = JSON.parse(localStorage.getItem('cartArr'))
-                console.log(cartArr)
-                let targetProduct = e.target.parentElement.parentElement.firstElementChild.innerHTML
-                console.log(targetProduct)
-                let found = cartArr.find(function(element) {
-                    return element.product === targetProduct
-                })
-                console.log(found)
-                let indexofFound = cartArr.indexOf(found)
-                console.log(indexofFound)
-                cartArr.splice(indexofFound, 1)
-                localStorage.setItem('cartArr', JSON.stringify(cartArr))
+                // let cartArr = JSON.parse(localStorage.getItem('cartArr'))
+                // let targetProduct = e.target.parentElement.parentElement.firstElementChild.innerHTML
+                // let found = cartArr.find(function(element) {
+                //     return element.product === targetProduct
+                // })
+                // let indexofFound = cartArr.indexOf(found)
+                // cartArr.splice(indexofFound, 1)
+                // localStorage.setItem('cartArr', JSON.stringify(cartArr))
                 e.target.parentElement.parentElement.remove()
-                console.log(e.target.parentElement.parentElement)
                 deleteItem(e.target.parentElement.parentElement)
             }
         })
