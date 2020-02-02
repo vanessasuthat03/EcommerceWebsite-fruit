@@ -1,5 +1,5 @@
 body {
-    background: green;
+    background: goldenrod;
 }
 
 section {
@@ -10,6 +10,16 @@ section {
     position: sticky;
     top: 0;
     background: wheat;
-    border: 2px solid seagreen;
+    border: 5px solid hotpink;
     max-height: 500px;
+}
+
+img {
+    width: 200px;
+    margin: 10px;
+}
+
+#etiquette-holder {
+    display: flex;
+    flex-wrap: wrap;
 }

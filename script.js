@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    localStorage.clear()
+    // localStorage.clear()
     $.getJSON("dataBas.json", function(response) {
         // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (vår response)
         for (let i = 0; i < response.products.length; i++) {
@@ -21,10 +21,10 @@ $(document).ready(function() {
         // 2. Loopa också ut varukorgen om det finns någon i localStorage
         if(localStorage.getItem('cartArr') !== null) {
             let cartArr = JSON.parse(localStorage.getItem('cartArr'))
-            let $fruitList =  $('#fruit-list')
+            let $fruitList = $('#fruit-list')
 
             for(let i = 0; i < cartArr.length; i++) {
-                $fruitList.prepend(
+                $fruitList.append(
                     `<tr>
                         <td>${cartArr[i].product}</td>
                         <td>${cartArr[i].quantity}</td>
@@ -76,63 +76,82 @@ $(document).ready(function() {
             let newPrice = $price.text()
             let cartArr = []
 
-            showMesseage("Produkten har lagts till i varukorgen.", "success")
-            inputField.val('1')
+            if (newQuantity === '0') {
+                showMesseage("Vänligen ange antal Tack!", "danger")
+            } else {
+                showMesseage("Produkten har lagts till i varukorgen.", "success")
+                inputField.val('1')
+                let found = response.products.find(function(element) {
+                    return element.productName === newProduct
+                })
+                let indexOfFound = response.products.indexOf(found)
+                $price.text(response.products[indexOfFound].price)
 
-            let found = response.products.find(function(element) {
-                return element.productName === newProduct
-            })
-            let indexOfFound = response.products.indexOf(found)
-            $price.text(response.products[indexOfFound].price)
+                if(localStorage.getItem("cartArr") !== null) {
+                    // om cartArr redan finns i localStorage
+                    cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
+                }
+                if(cartArr.find(element => { return element.product === newProduct})) {
+                    console.log('DUPE')
+                    let dupe = cartArr.find(element => { return element.product === newProduct})
+                    cartArr.splice(cartArr.indexOf(dupe), 1, {quantity: newQuantity, product: newProduct, price: newPrice})
+                    localStorage.setItem('cartArr', JSON.stringify(cartArr))
+                } else {
+                    cartArr.unshift({
+                    quantity: newQuantity,
+                    product: newProduct,
+                    price: newPrice
+                    }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
+                    localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
 
-            // const duplicate = cartArr.find(function(element) {
-            //     console.log("hej")
-            // })
+                    // och lägg till i vår table-tag
 
-            if (localStorage.getItem("cartArr") !== null) {
-                // om cartArr redan finns i localStorage
-                cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
+                    // $("table").append(
+                    //     `<tr>
+                    //         <td>${newQuantity}</td>
+                    //         <td>${newProduct}</td>
+                    //         <td>${newPrice}</td>
+                    //         <td><button id="dltBtn">Delete</td>
+                    //     </tr>`
+                    // )
+
+                    // Vanessa: Alternativ: skapar ny rad i tbody och lägger in produkter
+
+                    const list = document.querySelector("#fruit-list")
+                    const row = document.createElement("tr")
+                    row.innerHTML = `
+
+                    <td>${newProduct}</td>
+                    <td>${newQuantity}</td>
+                    <td>${newPrice}</td>
+                    <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
+                    list.prepend(row)
+                }
             }
-            cartArr.push({
-                quantity: newQuantity,
-                product: newProduct,
-                price: newPrice
-            }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
-            localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
-
-            // och lägg till i vår table-tag
-
-            // $("table").append(
-            //     `<tr>
-            //         <td>${newQuantity}</td>
-            //         <td>${newProduct}</td>
-            //         <td>${newPrice}</td>
-            //         <td><button id="dltBtn">Delete</td>
-            //     </tr>`
-            // )
-
-            // Vanessa: Alternativ: skapar ny rad i tbody och lägger in produkter
-
-            const list = document.querySelector("#fruit-list")
-            const row = document.createElement("tr")
-            row.innerHTML = `
-
-            <td>${newProduct}</td>
-            <td>${newQuantity}</td>
-            <td>${newPrice}</td>
-            <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
-            list.prepend(row)
         }
 
         // Delete
         document.querySelector("#fruit-list").addEventListener("click", e => {
             console.log(e.target)
             if (e.target.classList.contains("delete")) {
+                let cartArr = JSON.parse(localStorage.getItem('cartArr'))
+                console.log(cartArr)
+                let targetProduct = e.target.parentElement.parentElement.firstElementChild.innerHTML
+                console.log(targetProduct)
+                let found = cartArr.find(function(element) {
+                    return element.product === targetProduct
+                })
+                console.log(found)
+                let indexofFound = cartArr.indexOf(found)
+                console.log(indexofFound)
+                cartArr.splice(indexofFound, 1)
+                localStorage.setItem('cartArr', JSON.stringify(cartArr))
                 e.target.parentElement.parentElement.remove()
             }
         })
 
         let inputFields = $('.inputQuant')
+        console.log(inputFields)
 
         inputFields.on('input', function(){
             let $inputField = $(this)
@@ -145,5 +164,7 @@ $(document).ready(function() {
 
             $price.text(`${parseInt($inputField.val()) * unitPrice}`)
         })
+
+
     })
 })
