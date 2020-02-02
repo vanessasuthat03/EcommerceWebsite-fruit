@@ -1,5 +1,5 @@
 body {
-    background: orange;
+    background: green;
 }
 
 section {
@@ -7,7 +7,7 @@ section {
     grid-template: 1fr / 2fr 1fr;
 }
 .cart {
-    background: hotpink;
+    background: wheat;
     border: 2px solid seagreen;
     max-height: 500px;
 }
