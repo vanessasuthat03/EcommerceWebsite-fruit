@@ -38,7 +38,7 @@ $(document).ready(function() {
 
         addBtns.click(function(addBtn) {
             addToCart(this)
-            
+
             // if (inputQuantity.val() === "" || isNaN(parseInt(inputQuantity.val()))) {
             //     console.log("hej")
             //     showMesseage("Vänligen ange antal Tack!", "danger")
@@ -57,8 +57,12 @@ $(document).ready(function() {
 
             let inputField = $(addBtn).siblings("input")
             let newQuantity = inputField.val()
-            let newProduct = $(addBtn).siblings("h3").text()
-            let newPrice = $(addBtn).siblings("p").text()
+            let newProduct = $(addBtn)
+                .siblings("h3")
+                .text()
+            let newPrice = $(addBtn)
+                .siblings("p")
+                .text()
             let cartArr = []
 
             if (isNaN(parseInt(newQuantity))) {
@@ -66,12 +70,11 @@ $(document).ready(function() {
                 showMesseage("Vänligen ange antal Tack!", "danger")
             } else {
                 showMesseage("Produkten har lagt till i varukorgen.", "success")
-                inputField.val('')
-            
+                inputField.val("")
 
-            // const duplicate = cartArr.find(function(element) {
-            //     console.log("hej")
-            // })
+                // const duplicate = cartArr.find(function(element) {
+                //     console.log("hej")
+                // })
 
                 if (localStorage.getItem("cartArr") !== null) {
                     // om cartArr redan finns i localStorage
@@ -117,21 +120,22 @@ $(document).ready(function() {
             }
         })
 
-        let inputFields = $('.inputQuant')
+        let inputFields = $(".inputQuant")
         console.log(inputFields)
 
-        inputFields.on('input', function(){
+        inputFields.on("input", function() {
             let $inputField = $(this)
-            let $price = $inputField.siblings('p')
-            let unitPrice = parseInt(response.products[parseInt($inputField.attr('id'))].price)
+            let $price = $inputField.siblings("p")
+            let unitPrice = parseInt(
+                response.products[parseInt($inputField.attr("id"))].price
+            )
+            console.log(unitPrice)
 
-            if($inputField.val() === '') {
-                $inputField.val('1')
+            if ($inputField.val() === "") {
+                $inputField.val("1")
             }
 
             $price.text(`${parseInt($inputField.val()) * unitPrice}`)
         })
-
-
     })
 })
