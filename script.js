@@ -22,6 +22,7 @@ $(document).ready(function() {
         if (localStorage.getItem("cartArr") !== null) {
             let cartArr = JSON.parse(localStorage.getItem("cartArr"))
             let $fruitList = $("#fruit-list")
+
             for (let i = 0; i < cartArr.length; i++) {
                 $fruitList.prepend(
                     `<tr>
@@ -33,7 +34,6 @@ $(document).ready(function() {
                 )
             }
         }
-
         // 3. Lägg till eventlistener på alla "Lägg till"-knappar för att skicka data till localStorage
         let addBtns = $(".addBtn")
 
@@ -69,60 +69,60 @@ $(document).ready(function() {
             // Cache:a antal, produkt och pris
 
             let inputField = $(addBtn).siblings("input")
+            let $price = $(addBtn).siblings("p")
             let newQuantity = inputField.val()
             let newProduct = $(addBtn)
                 .siblings("h3")
                 .text()
-            let newPrice = $(addBtn)
-                .siblings("p")
-                .text()
+            let newPrice = $price.text()
             let cartArr = []
 
-            if (isNaN(parseInt(newQuantity))) {
-                console.log("hej")
-                showMesseage("Vänligen ange antal Tack!", "danger")
-            } else {
-                showMesseage("Produkten har lagt till i varukorgen.", "success")
-                inputField.val("1")
+            showMesseage("Produkten har lagts till i varukorgen.", "success")
+            inputField.val("1")
 
-                // const duplicate = cartArr.find(function(element) {
-                //     console.log("hej")
-                // })
+            let found = response.products.find(function(element) {
+                return element.productName === newProduct
+            })
+            let indexOfFound = response.products.indexOf(found)
+            $price.text(response.products[indexOfFound].price)
 
-                if (localStorage.getItem("cartArr") !== null) {
-                    // om cartArr redan finns i localStorage
-                    cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
-                }
-                cartArr.push({
-                    quantity: newQuantity,
-                    product: newProduct,
-                    price: newPrice
-                }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
-                localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
+            // const duplicate = cartArr.find(function(element) {
+            //     console.log("hej")
+            // })
 
-                // och lägg till i vår table-tag
-
-                // $("table").append(
-                //     `<tr>
-                //         <td>${newQuantity}</td>
-                //         <td>${newProduct}</td>
-                //         <td>${newPrice}</td>
-                //         <td><button id="dltBtn">Delete</td>
-                //     </tr>`
-                // )
-
-                // Vanessa: Alternativ: skapar ny rad i tbody och lägger in produkter
-
-                const list = document.querySelector("#fruit-list")
-                const row = document.createElement("tr")
-                row.innerHTML = `
-
-                <td>${newProduct}</td>
-                <td>${newQuantity}</td>
-                <td>${newPrice}</td>
-                <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
-                list.prepend(row)
+            if (localStorage.getItem("cartArr") !== null) {
+                // om cartArr redan finns i localStorage
+                cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
             }
+            cartArr.push({
+                quantity: newQuantity,
+                product: newProduct,
+                price: newPrice
+            }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
+            localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
+
+            // och lägg till i vår table-tag
+
+            // $("table").append(
+            //     `<tr>
+            //         <td>${newQuantity}</td>
+            //         <td>${newProduct}</td>
+            //         <td>${newPrice}</td>
+            //         <td><button id="dltBtn">Delete</td>
+            //     </tr>`
+            // )
+
+            // Vanessa: Alternativ: skapar ny rad i tbody och lägger in produkter
+
+            const list = document.querySelector("#fruit-list")
+            const row = document.createElement("tr")
+            row.innerHTML = `
+
+            <td>${newProduct}</td>
+            <td>${newQuantity}</td>
+            <td>${newPrice}</td>
+            <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
+            list.prepend(row)
         }
 
         // Delete from local storage
@@ -154,7 +154,6 @@ $(document).ready(function() {
         })
 
         let inputFields = $(".inputQuant")
-        console.log(inputFields)
 
         inputFields.on("input", function() {
             let $inputField = $(this)

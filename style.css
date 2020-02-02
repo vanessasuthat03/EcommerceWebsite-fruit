@@ -7,6 +7,8 @@ section {
     grid-template: 1fr / 2fr 1fr;
 }
 .cart {
+    position: sticky;
+    top: 0;
     background: wheat;
     border: 2px solid seagreen;
     max-height: 500px;
