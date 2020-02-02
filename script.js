@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    localStorage.clear()
+    // localStorage.clear()
     $.getJSON("dataBas.json", function(response) {
         // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (vår response)
         for (let i = 0; i < response.products.length; i++) {
@@ -52,7 +52,6 @@ $(document).ready(function() {
 
         addBtns.click(function(addBtn) {
             addToCart(this)
-
             // if (inputQuantity.val() === "" || isNaN(parseInt(inputQuantity.val()))) {
             //     console.log("hej")
             //     showMesseage("Vänligen ange antal Tack!", "danger")
@@ -126,11 +125,31 @@ $(document).ready(function() {
             }
         }
 
-        // Delete
+        // Delete from local storage
+
+        function deleteItem(fruitItem) {
+            let product = fruitItem.firstChild.nextElementSibling.textContent
+            let cartArr = JSON.parse(localStorage.getItem("cartArr"))
+
+            cartArr.forEach(function(fruit, index) {
+                if (fruit.product === product) {
+                    cartArr.splice(index, 1)
+                } else {
+                    console.log(
+                        "Frukten från localStorage och varokorgen stämmer inte"
+                    )
+                }
+            })
+            localStorage.setItem("cartArr", JSON.stringify(cartArr))
+        }
+
+        // Delete from varukorg
         document.querySelector("#fruit-list").addEventListener("click", e => {
             console.log(e.target)
             if (e.target.classList.contains("delete")) {
                 e.target.parentElement.parentElement.remove()
+                console.log(e.target.parentElement.parentElement)
+                deleteItem(e.target.parentElement.parentElement)
             }
         })
 
@@ -140,10 +159,10 @@ $(document).ready(function() {
         inputFields.on("input", function() {
             let $inputField = $(this)
             let $price = $inputField.siblings("p")
+            console.log(unitPrice)
             let unitPrice = parseInt(
                 response.products[parseInt($inputField.attr("id"))].price
             )
-            console.log(unitPrice)
 
             if ($inputField.val() === "") {
                 $inputField.val("1")
