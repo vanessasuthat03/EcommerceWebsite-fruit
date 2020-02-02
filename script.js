@@ -2,7 +2,6 @@ $(document).ready(function() {
     localStorage.clear()
     $.getJSON("dataBas.json", function(response) {
         // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (vår response)
-        console.log(response)
         for (let i = 0; i < response.products.length; i++) {
             const etiquetteHolder = $("#etiquette-holder")
             etiquetteHolder.append(
@@ -19,9 +18,24 @@ $(document).ready(function() {
             </div`
             )
         }
-        // 2. Lägg till eventlistener på alla "Lägg till"-knappar för att skicka data till localStorage
+        // 2. Loopa också ut varukorgen om det finns någon i localStorage
+        if(localStorage.getItem('cartArr') !== null) {
+            let cartArr = JSON.parse(localStorage.getItem('cartArr'))
+            let $fruitList =  $('#fruit-list')
+            for(let i = 0; i < cartArr.length; i++) {
+                $fruitList.prepend(
+                    `<tr>
+                        <td>${cartArr[i].product}</td>
+                        <td>${cartArr[i].quantity}</td>
+                        <td>${cartArr[i].price}</td>
+                        <td><button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</td>
+                    </tr>`
+                )
+            }
+        }
+
+        // 3. Lägg till eventlistener på alla "Lägg till"-knappar för att skicka data till localStorage
         let addBtns = $(".addBtn")
-        console.log(addBtns)
 
         // Vanessa: Lägger till popup message
         function showMesseage(message, className) {
@@ -66,7 +80,7 @@ $(document).ready(function() {
                 showMesseage("Vänligen ange antal Tack!", "danger")
             } else {
                 showMesseage("Produkten har lagt till i varukorgen.", "success")
-                inputField.val('')
+                inputField.val('1')
             
 
             // const duplicate = cartArr.find(function(element) {
@@ -105,7 +119,7 @@ $(document).ready(function() {
                 <td>${newQuantity}</td>
                 <td>${newPrice}</td>
                 <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
-                list.appendChild(row)
+                list.prepend(row)
             }
         }
 
