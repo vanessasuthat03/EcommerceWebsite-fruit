@@ -11,7 +11,7 @@ $(document).ready(function() {
                 <h3>${response.products[i].productName}</h3>
                 <p>${response.products[i].price}</p>
                 <button id="decrease${i}">-</button>
-                <input id="${i}" class="inputQuant">
+                <input id="${i}" class="inputQuant" type="number" min="1">
                 
                 <button class="" id="increase${i}">+</button>
                 <br>
@@ -22,8 +22,6 @@ $(document).ready(function() {
         // 2. Lägg till eventlistener på alla "Lägg till"-knappar för att skicka data till localStorage
         let addBtns = $(".addBtn")
         console.log(addBtns)
-        let inputQuantity = $(".inputQuant")
-        console.log(inputQuantity)
 
         // Vanessa: Lägger till popup message
         function showMesseage(message, className) {
@@ -39,14 +37,15 @@ $(document).ready(function() {
         }
 
         addBtns.click(function(addBtn) {
-            console.log(inputQuantity.val())
-            if (inputQuantity.val() === "") {
-                console.log("hej")
-                showMesseage("Vänligen ange antal Tack!", "danger")
-            } else {
-                addToCart(this)
-                showMesseage("Produkten har lagt till i varukorgen.", "success")
-            }
+            addToCart(this)
+            
+            // if (inputQuantity.val() === "" || isNaN(parseInt(inputQuantity.val()))) {
+            //     console.log("hej")
+            //     showMesseage("Vänligen ange antal Tack!", "danger")
+            // } else {
+            //     addToCart(this)
+            //     showMesseage("Produkten har lagt till i varukorgen.", "success")
+            // }
 
             // const duplicate = cartArr.find(function(element) {
             //     return element.product === newProduct // om frukten redan finns i varukorgen så sparas det objektet i duplicate-variabeln
@@ -56,54 +55,58 @@ $(document).ready(function() {
         function addToCart(addBtn) {
             // Cache:a antal, produkt och pris
 
-            let newQuantity = $(addBtn)
-                .siblings("input")
-                .val()
-            let newProduct = $(addBtn)
-                .siblings("h3")
-                .text()
-            let newPrice = $(addBtn)
-                .siblings("p")
-                .text()
+            let inputField = $(addBtn).siblings("input")
+            let newQuantity = inputField.val()
+            let newProduct = $(addBtn).siblings("h3").text()
+            let newPrice = $(addBtn).siblings("p").text()
             let cartArr = []
+
+            if (isNaN(parseInt(newQuantity))) {
+                console.log("hej")
+                showMesseage("Vänligen ange antal Tack!", "danger")
+            } else {
+                showMesseage("Produkten har lagt till i varukorgen.", "success")
+                inputField.val('')
+            
 
             // const duplicate = cartArr.find(function(element) {
             //     console.log("hej")
             // })
 
-            if (localStorage.getItem("cartArr") !== null) {
-                // om cartArr redan finns i localStorage
-                cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
+                if (localStorage.getItem("cartArr") !== null) {
+                    // om cartArr redan finns i localStorage
+                    cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
+                }
+                cartArr.push({
+                    quantity: newQuantity,
+                    product: newProduct,
+                    price: newPrice
+                }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
+                localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
+
+                // och lägg till i vår table-tag
+
+                // $("table").append(
+                //     `<tr>
+                //         <td>${newQuantity}</td>
+                //         <td>${newProduct}</td>
+                //         <td>${newPrice}</td>
+                //         <td><button id="dltBtn">Delete</td>
+                //     </tr>`
+                // )
+
+                // Vanessa: Alternativ: skapar ny rad i tbody och lägger in produkter
+
+                const list = document.querySelector("#fruit-list")
+                const row = document.createElement("tr")
+                row.innerHTML = `
+
+                <td>${newProduct}</td>
+                <td>${newQuantity}</td>
+                <td>${newPrice}</td>
+                <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
+                list.appendChild(row)
             }
-            cartArr.push({
-                quantity: newQuantity,
-                product: newProduct,
-                price: newPrice
-            }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
-            localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
-
-            // och lägg till i vår table-tag
-
-            // $("table").append(
-            //     `<tr>
-            //         <td>${newQuantity}</td>
-            //         <td>${newProduct}</td>
-            //         <td>${newPrice}</td>
-            //         <td><button id="dltBtn">Delete</td>
-            //     </tr>`
-            // )
-
-            // Vanessa: Alternativ: skapar ny rad i tbody och lägger in produkter
-
-            const list = document.querySelector("#fruit-list")
-            const row = document.createElement("tr")
-            row.innerHTML = `
-
-            <td>${newProduct}</td>
-            <td>${newQuantity}</td>
-            <td>${newPrice}</td>
-            <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
-            list.appendChild(row)
         }
 
         // Delete
@@ -113,5 +116,15 @@ $(document).ready(function() {
                 e.target.parentElement.parentElement.remove()
             }
         })
+
+        let inputFields = $('.inputQuant')
+
+        inputFields.on('keypress paste',function(){
+        let $inputField = $(this)
+        parseInt($inputField.siblings('p').text()) * $inputField.val()
+
+        })
+
+
     })
 })
