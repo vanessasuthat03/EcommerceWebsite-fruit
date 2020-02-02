@@ -102,7 +102,7 @@ $(document).ready(function() {
             <td>${newProduct}</td>
             <td>${newQuantity}</td>
             <td>${newPrice}</td>
-            <td><button id="dltBtn" class="btn btn-danger btn-sx delete" >Delete</td>`
+            <td><button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</td>`
             list.appendChild(row)
         }
 
