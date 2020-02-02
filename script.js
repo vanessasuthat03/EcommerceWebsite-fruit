@@ -52,7 +52,6 @@ $(document).ready(function() {
 
         addBtns.click(function(addBtn) {
             addToCart(this)
-            
             // if (inputQuantity.val() === "" || isNaN(parseInt(inputQuantity.val()))) {
             //     console.log("hej")
             //     showMesseage("Vänligen ange antal Tack!", "danger")
@@ -72,7 +71,9 @@ $(document).ready(function() {
             let inputField = $(addBtn).siblings("input")
             let $price = $(addBtn).siblings("p")
             let newQuantity = inputField.val()
-            let newProduct = $(addBtn).siblings("h3").text()
+            let newProduct = $(addBtn)
+                .siblings("h3")
+                .text()
             let newPrice = $price.text()
             let cartArr = []
 
@@ -130,7 +131,25 @@ $(document).ready(function() {
             }
         }
 
-        // Delete
+        // Delete from local storage
+
+        function deleteItem(fruitItem) {
+            let product = fruitItem.firstChild.nextElementSibling.textContent
+            let cartArr = JSON.parse(localStorage.getItem("cartArr"))
+
+            cartArr.forEach(function(fruit, index) {
+                if (fruit.product === product) {
+                    cartArr.splice(index, 1)
+                } else {
+                    console.log(
+                        "Frukten från localStorage och varokorgen stämmer inte"
+                    )
+                }
+            })
+            localStorage.setItem("cartArr", JSON.stringify(cartArr))
+        }
+
+        // Delete from varukorg
         document.querySelector("#fruit-list").addEventListener("click", e => {
             console.log(e.target)
             if (e.target.classList.contains("delete")) {
@@ -147,19 +166,23 @@ $(document).ready(function() {
                 cartArr.splice(indexofFound, 1)
                 localStorage.setItem('cartArr', JSON.stringify(cartArr))
                 e.target.parentElement.parentElement.remove()
+                console.log(e.target.parentElement.parentElement)
+                deleteItem(e.target.parentElement.parentElement)
             }
         })
 
-        let inputFields = $('.inputQuant')
-        console.log(inputFields)
+        let inputFields = $(".inputQuant")
 
-        inputFields.on('input', function(){
+        inputFields.on("input", function() {
             let $inputField = $(this)
-            let $price = $inputField.siblings('p')
-            let unitPrice = parseInt(response.products[parseInt($inputField.attr('id'))].price)
+            let $price = $inputField.siblings("p")
+            console.log(unitPrice)
+            let unitPrice = parseInt(
+                response.products[parseInt($inputField.attr("id"))].price
+            )
 
-            if($inputField.val() === '') {
-                $inputField.val('1')
+            if ($inputField.val() === "") {
+                $inputField.val("1")
             }
 
             $price.text(`${parseInt($inputField.val()) * unitPrice}`)
