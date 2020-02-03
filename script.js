@@ -83,21 +83,18 @@ $(document).ready(function() {
                 showMesseage("Produkten har lagts till i varukorgen.", "success")
                 inputField.val('1')
                 
-                let found = response.products.find(function(element) {
-                    return element.productName === newProduct
-                })
-                $price.text(found.price)
+                
+                $price.text(getProductInfo(newProduct).price)
 
-                if(localStorage.getItem("cartArr") !== null) {
-                    // om cartArr redan finns i localStorage
+                if(localStorage.getItem("cartArr") !== null) { // om cartArr redan finns i localStorage
                     cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
                 }
                 if(duplicateExists(cartArr, newProduct)) { // om den hittar en produkt-dublett
-                    if(confirm('Vill du ersätta?')) {
+                    if(confirm('Vill du ersätta? OK=ERSÄTT  AVBRYT=MERGE')) {
                         replaceProduct(cartArr, newProduct, newQuantity, newPrice)
-                    } // else {
-                    //     mergeProductQty(cartArr, newProduct, newQuantity, newPrice)
-                    // }
+                    } else {
+                        mergeProduct(cartArr, newProduct, newQuantity, newPrice)
+                    }
                 } else {
                     cartArr.unshift({
                     quantity: newQuantity,
@@ -156,11 +153,11 @@ $(document).ready(function() {
             if (e.target.classList.contains("delete")) {
                 // let cartArr = JSON.parse(localStorage.getItem('cartArr'))
                 // let targetProduct = e.target.parentElement.parentElement.firstElementChild.innerHTML
-                // let found = cartArr.find(function(element) {
+                // let targetProductInfo = cartArr.find(function(element) {
                 //     return element.product === targetProduct
                 // })
-                // let indexofFound = cartArr.indexOf(found)
-                // cartArr.splice(indexofFound, 1)
+                // let indexoftargetProductInfo = cartArr.indexOf(targetProductInfo)
+                // cartArr.splice(indexoftargetProductInfo, 1)
                 // localStorage.setItem('cartArr', JSON.stringify(cartArr))
                 e.target.parentElement.parentElement.remove()
                 deleteItem(e.target.parentElement.parentElement)
@@ -184,26 +181,35 @@ $(document).ready(function() {
         })
 
         function duplicateExists(cartArr, newProduct) {
-            return cartArr.find(element => { return element.product === newProduct}) // returnerar truthy eller falsey
+            return cartArr.find(element => { return element.product === newProduct}) // Returnerar truthy eller falsy
         }
 
         function replaceProduct(cartArr, newProduct, newQuantity, newPrice) {
-            cartArr.find(function (element, index) {
-                if(element.product === newProduct) {
-                    cartArr.splice(index, 1, {quantity: newQuantity, product: newProduct, price: newPrice})
+            cartArr.find(function (element, index) { // Loopa igenom varukorgen (Local Storage)
+                if(element.product === newProduct) { // IFALL produkten i varukorgen === produkten man lägger till
+                    cartArr.splice(index, 1) // ta bort produkten ur varukorgen 
+                    cartArr.unshift({ quantity: newQuantity, product: newProduct, price: newPrice }) // och lägg till nya produkten i början av varukorgen
                 }
             })
-            localStorage.setItem('cartArr', JSON.stringify(cartArr))
+            localStorage.setItem('cartArr', JSON.stringify(cartArr)) // Skicka nya listan till Local Storage
         }
 
-        // function mergeProductQty(cartArr, newProduct, newQuantity, newPrice) {
-        //     cartArr.find(function (element, index) {
-        //         if(element.product === newProduct) {
-        //             cartArr.splice(index, 1, {quantity: parseInt(newQuantity)+parseInt(element.quantity), product: newProduct, price: newPrice})
-        //         }
-        //     })
-        //     localStorage.setItem('cartArr', JSON.stringify(cartArr))
-        // }
+        function mergeProduct(cartArr, newProduct, newQuantity, newPrice) {
+            cartArr.find(function (element, index) { // Loopa igenom varukorgen (Local Storage)
+                if(element.product === newProduct) { // IFALL produkten i varukorgen === produkten man lägger till
+                    const qtySum = parseInt(newQuantity)+parseInt(element.quantity) // addera antalen
+                    const priceSum = parseInt(newPrice)+parseInt(element.price) // och addera priset
+                    cartArr.splice(index, 1, { quantity: qtySum, product: element.product, price: priceSum }) // Ta bort produkten ur varukorgen och ersätt det med de nya värdena
+                }
+            })
+            localStorage.setItem('cartArr', JSON.stringify(cartArr)) // Skicka nya listan till Local Storage
+        }
+
+        function getProductInfo(targetProduct) {
+            return response.products.find(function(element) {
+                return element.productName === targetProduct
+            })
+        }
 
     })
 })
