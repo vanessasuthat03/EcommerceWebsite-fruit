@@ -6,6 +6,7 @@ $(document).ready(function() {
             const etiquetteHolder = $("#etiquette-holder")
             etiquetteHolder.append(
                 `<div>
+              
                 <img src="${response.products[i].img}">
                 <h3>${response.products[i].productName}</h3>
                 <p>${response.products[i].price}</p>
@@ -19,11 +20,12 @@ $(document).ready(function() {
             )
         }
         // 2. Loopa också ut varukorgen om det finns någon i localStorage
-        if(localStorage.getItem('cartArr') !== null) {
-            let cartArr = JSON.parse(localStorage.getItem('cartArr'))
-            let $fruitList = $('#fruit-list')
+        if (localStorage.getItem("cartArr") !== null) {
+            let cartArr = JSON.parse(localStorage.getItem("cartArr"))
+            let $fruitList = $("#fruit-list")
 
-            for(let i = 0; i < cartArr.length; i++) {
+            for (let i = 0; i < cartArr.length; i++) {
+                console.log(cartArr)
                 $fruitList.append(
                     `<tr>
                         <td>${cartArr[i].product}</td>
@@ -41,7 +43,7 @@ $(document).ready(function() {
         function showMesseage(message, className) {
             const div = document.createElement("div")
             div.className = `alert alert-${className}`
-            div.appendChild(document.createTextNode(message))
+            div.append(message)
             const cart = document.querySelector(".cart")
             const table = document.querySelector("#getLocal")
             cart.insertBefore(div, table)
@@ -77,31 +79,44 @@ $(document).ready(function() {
             let newPrice = $price.text()
             let cartArr = []
 
-            if (newQuantity === '0') {
+            if (newQuantity === "0") {
                 showMesseage("Vänligen ange antal Tack!", "danger")
             } else {
-                showMesseage("Produkten har lagts till i varukorgen.", "success")
-                inputField.val('1')
+                showMesseage(
+                    "Produkten har lagts till i varukorgen.",
+                    "success"
+                )
+                inputField.val("1")
                 let found = response.products.find(function(element) {
                     return element.productName === newProduct
                 })
                 let indexOfFound = response.products.indexOf(found)
                 $price.text(response.products[indexOfFound].price)
 
-                if(localStorage.getItem("cartArr") !== null) {
+                if (localStorage.getItem("cartArr") !== null) {
                     // om cartArr redan finns i localStorage
                     cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
                 }
-                if(cartArr.find(element => { return element.product === newProduct})) {
-                    console.log('DUPE')
-                    let dupe = cartArr.find(element => { return element.product === newProduct})
-                    cartArr.splice(cartArr.indexOf(dupe), 1, {quantity: newQuantity, product: newProduct, price: newPrice})
-                    localStorage.setItem('cartArr', JSON.stringify(cartArr))
+                if (
+                    cartArr.find(element => {
+                        return element.product === newProduct
+                    })
+                ) {
+                    console.log("DUPE")
+                    let dupe = cartArr.find(element => {
+                        return element.product === newProduct
+                    })
+                    cartArr.splice(cartArr.indexOf(dupe), 1, {
+                        quantity: newQuantity,
+                        product: newProduct,
+                        price: newPrice
+                    })
+                    localStorage.setItem("cartArr", JSON.stringify(cartArr))
                 } else {
                     cartArr.unshift({
-                    quantity: newQuantity,
-                    product: newProduct,
-                    price: newPrice
+                        quantity: newQuantity,
+                        product: newProduct,
+                        price: newPrice
                     }) // lägg in ett objekt med info om tillägget (i slutet av arrayen)
                     localStorage.setItem("cartArr", JSON.stringify(cartArr)) // skicka arrayen till localStorage
 
@@ -182,7 +197,5 @@ $(document).ready(function() {
 
             $price.text(`${parseInt($inputField.val()) * unitPrice}`)
         })
-
-
     })
 })
