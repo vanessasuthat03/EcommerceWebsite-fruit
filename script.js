@@ -82,21 +82,22 @@ $(document).ready(function() {
             } else {
                 showMesseage("Produkten har lagts till i varukorgen.", "success")
                 inputField.val('1')
+                
                 let found = response.products.find(function(element) {
                     return element.productName === newProduct
                 })
-                let indexOfFound = response.products.indexOf(found)
-                $price.text(response.products[indexOfFound].price)
+                $price.text(found.price)
 
                 if(localStorage.getItem("cartArr") !== null) {
                     // om cartArr redan finns i localStorage
                     cartArr = JSON.parse(localStorage.getItem("cartArr")) // hämta nuvarande localStorage
                 }
-                if(cartArr.find(element => { return element.product === newProduct})) {
-                    console.log('DUPE')
-                    let dupe = cartArr.find(element => { return element.product === newProduct})
-                    cartArr.splice(cartArr.indexOf(dupe), 1, {quantity: newQuantity, product: newProduct, price: newPrice})
-                    localStorage.setItem('cartArr', JSON.stringify(cartArr))
+                if(duplicateExists(cartArr, newProduct)) { // om den hittar en produkt-dublett
+                    if(confirm('Vill du ersätta?')) {
+                        replaceProduct(cartArr, newProduct, newQuantity, newPrice)
+                    } // else {
+                    //     mergeProductQty(cartArr, newProduct, newQuantity, newPrice)
+                    // }
                 } else {
                     cartArr.unshift({
                     quantity: newQuantity,
@@ -171,18 +172,38 @@ $(document).ready(function() {
         inputFields.on("input", function() {
             let $inputField = $(this)
             let $price = $inputField.siblings("p")
-            console.log(unitPrice)
             let unitPrice = parseInt(
                 response.products[parseInt($inputField.attr("id"))].price
             )
 
-            if ($inputField.val() === "") {
+            if($inputField.val() === "") {
                 $inputField.val("1")
             }
 
             $price.text(`${parseInt($inputField.val()) * unitPrice}`)
         })
 
+        function duplicateExists(cartArr, newProduct) {
+            return cartArr.find(element => { return element.product === newProduct}) // returnerar truthy eller falsey
+        }
+
+        function replaceProduct(cartArr, newProduct, newQuantity, newPrice) {
+            cartArr.find(function (element, index) {
+                if(element.product === newProduct) {
+                    cartArr.splice(index, 1, {quantity: newQuantity, product: newProduct, price: newPrice})
+                }
+            })
+            localStorage.setItem('cartArr', JSON.stringify(cartArr))
+        }
+
+        // function mergeProductQty(cartArr, newProduct, newQuantity, newPrice) {
+        //     cartArr.find(function (element, index) {
+        //         if(element.product === newProduct) {
+        //             cartArr.splice(index, 1, {quantity: parseInt(newQuantity)+parseInt(element.quantity), product: newProduct, price: newPrice})
+        //         }
+        //     })
+        //     localStorage.setItem('cartArr', JSON.stringify(cartArr))
+        // }
 
     })
 })
