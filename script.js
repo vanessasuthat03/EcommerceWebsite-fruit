@@ -171,7 +171,6 @@ $(document).ready(function() {
         inputFields.on("input", function() {
             let $inputField = $(this)
             let $price = $inputField.siblings("p")
-            console.log(unitPrice)
             let unitPrice = parseInt(
                 response.products[parseInt($inputField.attr("id"))].price
             )
