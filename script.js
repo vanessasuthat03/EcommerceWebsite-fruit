@@ -120,6 +120,13 @@ $(document).ready(function() {
                 }
             })
 
+        $("#emptyCart").click(function() {
+            let cartArr = JSON.parse(localStorage.getItem("cartArr"))
+            cartArr = []
+            cartArr = localStorage.setItem("cartArr", JSON.stringify(cartArr))
+            createCart()
+        })
+
         let inputFields = $(".inputQuant")
 
         inputFields.on("input", function() {
@@ -156,7 +163,7 @@ $(document).ready(function() {
                 totalCost += parseInt(cartArr[i].price)
             }
             console.log(totalCost)
-            $("#total").text("Total:" + " " + totalCost)
+            $("#total").text("Total:" + " " + totalCost + " kr")
             $cart.html(content)
 
             $(".decrease").click(function() {
@@ -167,6 +174,18 @@ $(document).ready(function() {
                 $(this)
                     .next()
                     .text(qty)
+                const product = $(this)
+                    .parent()
+                    .prev()
+                    .text()
+                const price = $(this)
+                    .parent()
+                    .next()
+                    .text()
+                const newPrice =
+                    parseInt(price) - parseInt(getProductInfo(product).price)
+                replaceProduct(cartArr, product, qty, newPrice)
+                createCart()
             })
 
             $(".increase").click(function() {
@@ -174,9 +193,21 @@ $(document).ready(function() {
                     .prev()
                     .text()
                 qty = parseInt(qty) + 1
-                $(this)
+                const product = $(this)
+                    .parent()
                     .prev()
-                    .text(qty)
+                    .text()
+                const price = $(this)
+                    .parent()
+                    .next()
+                    .text()
+                const newPrice =
+                    parseInt(price) + parseInt(getProductInfo(product).price)
+                replaceProduct(cartArr, product, qty, newPrice)
+                createCart()
+                // $(this)
+                //     .prev()
+                //     .text(qty)
             })
         }
 
@@ -226,12 +257,11 @@ $(document).ready(function() {
                 // Loopa igenom varukorgen (Local Storage)
                 if (element.product === newProduct) {
                     // IFALL produkten i varukorgen === produkten man lägger till
-                    cartArr.splice(index, 1) // ta bort produkten ur varukorgen
-                    cartArr.unshift({
+                    cartArr.splice(index, 1, {
                         quantity: newQty,
                         product: newProduct,
                         price: newPrice
-                    }) // och lägg till nya produkten i början av varukorgen
+                    }) // ta bort produkten ur varukorgen
                 }
             })
             localStorage.setItem("cartArr", JSON.stringify(cartArr)) // Skicka nya listan till Local Storage
