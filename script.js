@@ -14,10 +14,7 @@ $(document).ready(function() {
                     <img src="${productList[i].img}">
                     <h3>${productList[i].productName}</h3>
                     <p>${productList[i].price}</p>
-                    <button id="decrease${i}">-</button>
                     <input id="${i}" class="inputQuant" type="number" min="1" max="999" value="1">
-                    
-                    <button class="" id="increase${i}">+</button>
                     <br>
                     <button class="addBtn" id="add${i}">Lägg till</button>
                 </div`
@@ -129,18 +126,33 @@ $(document).ready(function() {
             const cartArr = JSON.parse(localStorage.getItem('cartArr'))
             const $cart = $('#cart-items-holder')
             let content = ''
+            let totalCost = 0
 
             for(let i = 0; i < cartArr.length; i++) {
                 content +=
                     `<tr>
                         <td>${cartArr[i].product}</td>
-                        <td>${cartArr[i].quantity}</td>
+                        <td>
+                            <button>-</button>
+                        <span>${cartArr[i].quantity}</span>
+                          <button>+</button>
+                        </td>
                         <td>${cartArr[i].price}</td>
                         <td><button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</td>
                     </tr>`
+                totalCost += parseInt(cartArr[i].price)
+                
             }
+            console.log(totalCost);
+            $('#total').text('Total:'+ ' ' + totalCost)
             $cart.html(content)
         }
+
+        $('#toggle').click(function(){
+            $('.cart').slideToggle(800)
+            
+
+        })
 
         // Vanessa: Lägger till popup message
         function showMessage(message, className) {
