@@ -1,5 +1,5 @@
-$(document).ready(function() {
-    $.getJSON("dataBas.json", function(productList) {
+$(document).ready(function () {
+    $.getJSON("dataBas.json", function (productList) {
         if (localStorage.getItem("cartArr") === null) {
             localStorage.setItem("cartArr", "[]")
         }
@@ -14,7 +14,7 @@ $(document).ready(function() {
                     <p>${productList[i].price}</p>
                     <input id="${i}" class="inputQuant" type="number" min="1" max="999" value="1">
                     <br>
-                    <button class="addBtn" id="add${i}">Lägg till</button>
+                    <button class="addBtn btn btn-success" id="add${i}">Lägg till</button>
                 </div`
             )
         }
@@ -26,7 +26,7 @@ $(document).ready(function() {
         // 3. Lägg till eventlisteners
         const addBtns = $(".addBtn")
 
-        addBtns.click(function(addBtn) {
+        addBtns.click(function (addBtn) {
             addToCart(this)
         })
 
@@ -122,7 +122,7 @@ $(document).ready(function() {
                 }
             })
 
-        $("#emptyCart").click(function() {
+        $("#emptyCart").click(function () {
             let cartArr = JSON.parse(localStorage.getItem("cartArr"))
             cartArr = []
             cartArr = localStorage.setItem("cartArr", JSON.stringify(cartArr))
@@ -131,7 +131,7 @@ $(document).ready(function() {
 
         let inputFields = $(".inputQuant")
 
-        inputFields.on("input", function() {
+        inputFields.on("input", function () {
             let $inputField = $(this)
             let $price = $inputField.siblings("p")
             let unitPrice = parseInt(
@@ -168,10 +168,8 @@ $(document).ready(function() {
             $("#total").text("Total:" + " " + totalCost + " kr")
             $cart.html(content)
 
-            $(".decrease").click(function() {
-                let qty = $(this)
-                    .next()
-                    .text()
+            $(".decrease").click(function () {
+                let qty = $(this).next().text()
                 qty = parseInt(qty) - 1
                 $(this)
                     .next()
@@ -190,7 +188,7 @@ $(document).ready(function() {
                 createCart()
             })
 
-            $(".increase").click(function() {
+            $(".increase").click(function () {
                 let qty = $(this)
                     .prev()
                     .text()
@@ -213,11 +211,11 @@ $(document).ready(function() {
             })
         }
 
-        $("#toggle").click(function() {
+        $("#toggle").click(function () {
             $(".cart").slideToggle(800)
         })
 
-        // Vanessa: Lägger till popup message
+        // Lägger till popup message
         function showMessage(message, className) {
             const div = document.createElement("div")
             div.className = `alert alert-${className}`
@@ -236,12 +234,12 @@ $(document).ready(function() {
             let product = fruitItem.firstChild.nextElementSibling.textContent
             let cartArr = JSON.parse(localStorage.getItem("cartArr"))
 
-            cartArr.forEach(function(fruit, index) {
+            cartArr.forEach(function (fruit, index) {
                 if (fruit.product === product) {
                     cartArr.splice(index, 1)
                 } else {
                     console.log(
-                        "Frukten från localStorage och varokorgen stämmer inte"
+                        "Frukten från localStorage och varukorgen stämmer inte"
                     )
                 }
             })
@@ -255,7 +253,7 @@ $(document).ready(function() {
         }
 
         function replaceProduct(cartArr, newProduct, newQty, newPrice) {
-            cartArr.find(function(element, index) {
+            cartArr.find(function (element, index) {
                 // Loopa igenom varukorgen (Local Storage)
                 if (element.product === newProduct) {
                     // IFALL produkten i varukorgen === produkten man lägger till
@@ -271,7 +269,7 @@ $(document).ready(function() {
         }
 
         function mergeProduct(cartArr, newProduct, newQty, newPrice) {
-            cartArr.find(function(element, index) {
+            cartArr.find(function (element, index) {
                 // Loopa igenom varukorgen (Local Storage)
                 if (element.product === newProduct) {
                     // IFALL produkten i varukorgen === produkten man lägger till
@@ -290,9 +288,11 @@ $(document).ready(function() {
         }
 
         function getProductInfo(targetProduct) {
-            return productList.find(function(element) {
+            return productList.find(function (element) {
                 return element.productName === targetProduct
             })
         }
+
+
     })
 })
