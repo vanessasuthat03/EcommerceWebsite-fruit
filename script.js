@@ -117,6 +117,8 @@ $(document).ready(function() {
                     // localStorage.setItem('cartArr', JSON.stringify(cartArr))
                     e.target.parentElement.parentElement.remove()
                     deleteItem(e.target.parentElement.parentElement)
+
+                    createCart()
                 }
             })
 
