@@ -1,96 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css" />
-
-    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
     <link rel="stylesheet" type="text/css" href="style.css" />
     <title>Test</title>
 </head>
 
 <body>
+    <nav class="navbar navbar-light bg-light">
+        <img id="toggle-cart-btn" src="./image/supermarket.svg"></button>
+    </nav>
     <header>
-        <h1>Exotic</h1>
+        <h1>Exotic.se</h1>
     </header>
-
-    <h2>Köp våra frukter</h2>
-    <button id="toggle"></button>
+    <h2>Sveriges största utbud av frukter</h2>
     <section>
-        <div id="etiquette-holder"></div>
-        <!--  // skapa 10 etikett divar och lägga in i den här diven -->
-        <div class="cart">
-            <h4>Varukorg</h4>
-            <table id="getLocal" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Produkt</th>
-                        <th>Antal</th>
-                        <th>Pris</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="cart-items-holder"></tbody>
-            </table>
-
-            <p id="total">Totalt:</p>
-            <button id="emptyCart">DELETE</button>
+        <ul id="etiquette-wrapper" class="d-flex justify-content-center flex-wrap"></ul>
+        <div class="cart-wrapper">
+            <div class="cart">
+                <h4>Varukorg</h4>
+                <table id="getLocal" class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Produkt</th>
+                            <th>Antal</th>
+                            <th>Pris</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items-holder"></tbody>
+                </table>
+                <span id="total">Totalt:</span>
+                <button id="emptyCart">DELETE</button>
+            </div>
         </div>
-        <!-- //för varukorgen -->
-
     </section>
     <a href="dataBas.json">JSON</a>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="script.js"></script>
 </body>
 
-=======
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <title>Test</title>
-    </head>
-    <body>
-        <nav class="navbar navbar-light bg-light"> 
-            <img id="toggle-cart-btn" src="./image/supermarket.svg"></button>
-        </nav>
-        <header>
-            <h1>Exotic.se</h1>
-        </header>
-        <h2>Sveriges största utbud av frukter</h2>
-        <section>
-            <ul id="etiquette-wrapper" class="d-flex justify-content-center flex-wrap"></ul>
-            <div class="cart-wrapper">
-                <div class="cart">
-                    <h4>Varukorg</h4>
-                    <table id="getLocal" class="table table-striped table-bordered">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Produkt</th>
-                                <th>Antal</th>
-                                <th>Pris</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart-items-holder"></tbody>
-                    </table>
-                    <span id="total">Totalt:</span>
-                    <button id="emptyCart">DELETE</button>
-                </div>
-            </div>
-        </section>
-        <a href="dataBas.json">JSON</a>
-        <script src="script.js"></script>
-    </body>
->>>>>>> b6d3c71af72ef4d1d562913258cccb10041d61f2
 </html>
