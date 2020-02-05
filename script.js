@@ -189,9 +189,7 @@ $(document).ready(function() {
         };
 
         function getProductInfo(targetProduct) {
-            return productList.find(function(element) {
-                return element.productName === targetProduct;
-            });
+            return productList.find(element => element.productName === targetProduct);
         };
     });
 });
