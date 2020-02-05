@@ -4,16 +4,17 @@ $(document).ready(function() {
             localStorage.setItem("cartArr", "[]");
         };
         for (let i = 0; i < productList.length; i++) { // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (productList)
-            const etiquetteHolder = $("#etiquette-holder");
+            const etiquetteHolder = $("#etiquette-wrapper");
             etiquetteHolder.append(
-                `<div>
+                `<li class="card">
                     <img src="${productList[i].img}">
-                    <h3>${productList[i].productName}</h3>
-                    <p>${productList[i].price}</p>
-                    <input id="${i}" class="inputQuant" type="number" min="1" max="999" value="1">
-                    <br>
-                    <button class="addBtn" id="add${i}">Lägg till</button>
-                </div`
+                    <div class="card-body">
+                        <h3 class="card-title">${productList[i].productName}</h3>
+                        <p class="card-text">${productList[i].price} kr</p>
+                        <input id="${i}" class="inputQuant" type="number" min="1" value="1">
+                        <button class="addBtn btn btn-primary" id="add${i}">Lägg till</button>
+                    </div>
+                </li`
             );
         };
         createCart(); // 2. Loopa också ut varukorgen
@@ -32,9 +33,9 @@ $(document).ready(function() {
         });
 
         $(".inputQuant").on("input", function() {
-            let $inputField = $(this);
-            let $price = $inputField.siblings("p");
-            let unitPrice = parseInt(productList[parseInt($inputField.attr("id"))].price);
+            const $inputField = $(this);
+            const $price = $inputField.siblings("p");
+            const unitPrice = parseInt(productList[parseInt($inputField.attr("id"))].price);
             
             if ($inputField.val() === "") {
                 $inputField.val("1");
@@ -105,21 +106,21 @@ $(document).ready(function() {
             for (let i = 0; i < cartArr.length; i++) {
                 content += 
                     `<tr><td>${cartArr[i].product}</td><td>`;
-                if (cartArr[i].quantity !== 1) {
+                if (cartArr[i].quantity != 1) {
                     content += '<button class="decrease">-</button>';
                 };
                 content += 
                             `<span>${cartArr[i].quantity}</span>
                             <button class="increase">+</button>
                         </td>
-                        <td>${cartArr[i].price}</td>
+                        <td>${cartArr[i].price} kr</td>
                         <td>
                             <button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</button>
                         </td>
                     </tr>`;
                 totalCost += parseInt(cartArr[i].price);
             };
-            $("#total").text("Total:" + " " + totalCost + " kr");
+            $("#total").text("Totalt:" + " " + totalCost + " kr");
             $cart.html(content);
 
             $(".decrease").click(function() {

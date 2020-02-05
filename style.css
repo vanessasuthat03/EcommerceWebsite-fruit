@@ -1,5 +1,5 @@
 body {
-    background: goldenrod;
+    background: rgb(161, 209, 212);
 }
 
 nav > img {
@@ -9,14 +9,14 @@ nav > img {
 
 section {
     display: grid;
-    grid-template: 1fr / 2fr 1fr;
+    grid-template: 1fr / 1fr 400px;
 }
+
 .cart {
     position: sticky;
     top: 0;
-    background: wheat;
-    border: 5px solid hotpink;
-    max-height: 800px;
+    background: whitesmoke;
+    border: 5px solid black;
 }
 
 img {
@@ -24,7 +24,11 @@ img {
     margin: 10px;
 }
 
-#etiquette-holder {
+ul {
+    padding: 0;
+}
+
+/* #etiquette-wrapper {
     display: flex;
     flex-wrap: wrap;
-}
+} */
