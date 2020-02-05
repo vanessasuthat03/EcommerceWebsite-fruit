@@ -1,10 +1,11 @@
-body {
+/* body {
     background: goldenrod;
-}
+} */
 
 section {
     display: grid;
     grid-template: 1fr / 2fr 1fr;
+    
 }
 .cart {
     position: sticky;
@@ -12,6 +13,8 @@ section {
     background: wheat;
     border: 5px solid hotpink;
     max-height: 800px;
+
+
 }
 
 img {
@@ -23,3 +26,5 @@ img {
     display: flex;
     flex-wrap: wrap;
 }
+
+
