@@ -9,16 +9,16 @@ $(document).ready(function() {
                 `<li class="card">
                     <img src="${productList[i].img}">
                     <div class="card-body">
-                        <h3 class="card-title">${productList[i].productName}</h3>
+                        <h3 class="card-title">${productList[i].product}</h3>
                         <p class="card-text">${productList[i].price} kr</p>
-                        <input id="${i}" class="inputQuant" type="number" min="1" value="1">
-                        <button class="addBtn btn btn-primary" id="add${i}">Lägg till</button>
+                        <input class="inputQuant" type="number" min="1" value="1">
+                        <button class="addBtn btn btn-primary">Lägg till</button>
                     </div>
                 </li`
             );
         };
         createCart(); // 2. Loopa också ut varukorgen
-
+        // Eventlisteners nedan:
         $(".addBtn").click(function() {
             addToCart(this);
         });
@@ -35,36 +35,19 @@ $(document).ready(function() {
         $(".inputQuant").on("input", function() {
             const $inputField = $(this);
             const $price = $inputField.siblings("p");
-            const unitPrice = parseInt(productList[parseInt($inputField.attr("id"))].price);
+            const product = $inputField.siblings("h3").text();
+            const unitPrice = getProductInfo(product).price;
             
             if ($inputField.val() === "") {
                 $inputField.val("1");
             };
-            $price.text(`${parseInt($inputField.val()) * unitPrice}`);
+            $price.text(`${$inputField.val() * unitPrice} kr`);
         });
-        // Delete from varukorg
-        document.querySelector("#cart-items-holder").addEventListener("click", e => {
-            if (e.target.classList.contains("delete")) {
-                // let cartArr = JSON.parse(localStorage.getItem('cartArr'))
-                // let targetProduct = e.target.parentElement.parentElement.firstElementChild.innerHTML
-                // let targetProductInfo = cartArr.find(function(element) {
-                //     return element.product === targetProduct
-                // })
-                // let indexoftargetProductInfo = cartArr.indexOf(targetProductInfo)
-                // cartArr.splice(indexoftargetProductInfo, 1)
-                // localStorage.setItem('cartArr', JSON.stringify(cartArr))
-                e.target.parentElement.parentElement.remove();
-                deleteItem(e.target.parentElement.parentElement);
-                createCart();
-            };
-        });
-
+        // Lägger till en produktbeställning i localStorage
         function addToCart(addBtn) {
-            let inputField = $(addBtn).siblings("input");
-            let $price = $(addBtn).siblings("p");
-            let newQty = inputField.val();
-            let newProduct = $(addBtn).siblings("h3").text();
-            let newPrice = $price.text();
+            const newQty = parseInt($(addBtn).siblings("input").val());
+            const newProduct = $(addBtn).siblings("h3").text();
+            const newPrice = parseInt(getProductInfo(newProduct).price);
 
             if (newQty === "0") {
                 showMessage("Vänligen ange antal Tack!", "danger");
@@ -73,30 +56,39 @@ $(document).ready(function() {
                 if (duplicateExists(cartArr, newProduct)) { // om den hittar en produkt-dublett
                     if (confirm("Vill du ersätta? OK=ERSÄTT  AVBRYT=MERGE")) {
                         replaceProduct(cartArr, newProduct, newQty, newPrice);
+                        createCart()
                         showMessage("Produkten har lagts till i varukorgen.", "success");
                     } else {
                         mergeProduct(cartArr, newProduct, newQty, newPrice);
+                        createCart()
                         showMessage("Produkten har lagts till i varukorgen.", "success");
                     };
                 } else {
                     cartArr.unshift({quantity: newQty, product: newProduct, price: newPrice}); // lägg in ett objekt med info om tillägget (i början av arrayen)
                     localStorage.setItem("cartArr", JSON.stringify(cartArr)); // skicka arrayen till localStorage
-                    showMessage("Produkten har lagts till i varukorgen.", "success");
                     createCart();
+                    showMessage("Produkten har lagts till i varukorgen.", "success");
                 };
             };
         };
-        // Vanessa: Lägger till popup message
+        // Lägger till popup message
         function showMessage(message, className) {
-            const div = document.createElement("div");
-            div.className = `alert alert-${className}`;
-            div.appendChild(document.createTextNode(message));
-            const cart = document.querySelector(".cart");
-            const table = document.querySelector("#getLocal");
-            cart.insertBefore(div, table);
-            setTimeout(() => document.querySelector(".alert").remove(), 3000);
+            const $alertElement = $('.alert')
+            $alertElement.text(message)
+            $alertElement.addClass(`alert-${className}`)
+            $alertElement.removeClass('hide')
+            // const div = document.createElement("div");
+            // div.className = `alert alert-${className}`;
+            // div.appendChild(document.createTextNode(message));
+            // const cart = document.querySelector(".cart");
+            // const table = document.querySelector("table");
+            // cart.insertBefore(div, table);
+            setTimeout(() => {
+                $alertElement.removeClass(`alert-${className}`);
+                $alertElement.addClass('hide');
+            }, 3000);
         };
-
+        // Skapar varukorgen i HTML utifrån localStorage
         function createCart() {
             const cartArr = JSON.parse(localStorage.getItem("cartArr"));
             const $cart = $("#cart-items-holder");
@@ -105,8 +97,8 @@ $(document).ready(function() {
 
             for (let i = 0; i < cartArr.length; i++) {
                 content += 
-                    `<tr><td>${cartArr[i].product}</td><td>`;
-                if (cartArr[i].quantity != 1) {
+                    `<tr><td class="product">${cartArr[i].product}</td><td>`;
+                if (cartArr[i].quantity !== 1) {
                     content += '<button class="decrease">-</button>';
                 };
                 content += 
@@ -115,79 +107,75 @@ $(document).ready(function() {
                         </td>
                         <td>${cartArr[i].price} kr</td>
                         <td>
-                            <button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</button>
+                            <button class="dltBtn btn btn-danger btn-sx delete">Delete</button>
                         </td>
                     </tr>`;
-                totalCost += parseInt(cartArr[i].price);
+                totalCost += cartArr[i].price;
             };
             $("#total").text("Totalt:" + " " + totalCost + " kr");
             $cart.html(content);
 
             $(".decrease").click(function() {
                 const $btn = $(this);
-                const qty = $btn.next().text();
                 const product = $btn.parent().prev().text();
-                const price = $btn.parent().next().text();
-                const newPrice = parseInt(price) - parseInt(getProductInfo(product).price);
-                const newQty = parseInt(qty) - 1;
+                const newQty = parseInt($btn.next().text()) - 1;
+                const newPrice = newQty * getProductInfo(product).price;
 
                 replaceProduct(cartArr, product, newQty, newPrice);
                 createCart();
             });
 
             $(".increase").click(function() {
-                $btn = $(this);
-                const qty = $btn.prev().text();
+                const $btn = $(this);
                 const product = $btn.parent().prev().text();
-                const price = $btn.parent().next().text();
-                const newPrice = parseInt(price) + parseInt(getProductInfo(product).price);
-                const newQty = parseInt(qty) + 1;
+                const newQty = parseInt($btn.prev().text()) + 1;
+                const newPrice = newQty * getProductInfo(product).price;
 
                 replaceProduct(cartArr, product, newQty, newPrice);
                 createCart();
             });
-        };
 
-        function duplicateExists(cartArr, newProduct) {
-            return cartArr.find(element => element.product === newProduct); // Returnerar truthy eller falsy
-        };
+            $(".dltBtn").click(function() {
+                const targetProduct = $(this).parent().siblings('.product').text();
 
-        function replaceProduct(cartArr, newProduct, newQty, newPrice) {
-            cartArr.find(function(element, index) { // Loopa igenom varukorgen (Local Storage)
-                if (element.product === newProduct) { // IFALL produkten i varukorgen === produkten man lägger till
-                    cartArr.splice(index, 1, {quantity: newQty, product: newProduct, price: newPrice}); // ta bort produkten ur varukorgen
+                deleteItem(cartArr, targetProduct);
+                createCart();
+            });
+        };
+        // Kollar om en produkt redan finns i localStorage
+        function duplicateExists(cartArr, targetProduct) {
+            return cartArr.find(element => element.product === targetProduct); // Returnerar truthy eller falsy
+        };
+        // Ersätter en produktbeställning med den nya, i localStorage
+        function replaceProduct(cartArr, targetProduct, newQty, newPrice) {
+            cartArr.forEach(function(element, index) { // Loopa igenom varukorgen (Local Storage)
+                if (element.product === targetProduct) { // IFALL produkten i varukorgen === produkten man lägger till
+                    cartArr.splice(index, 1, {quantity: newQty, product: targetProduct, price: newPrice}); // ta bort produkten ur varukorgen
                 };
             });
             localStorage.setItem("cartArr", JSON.stringify(cartArr)); // Skicka nya listan till Local Storage
-            createCart();
         };
-
-        function mergeProduct(cartArr, newProduct, newQty, newPrice) {
-            cartArr.find(function(element, index) { // Loopa igenom varukorgen (Local Storage)
-                if (element.product === newProduct) { // IFALL produkten i varukorgen === produkten man lägger till
-                    const qtySum = parseInt(newQty) + parseInt(element.quantity); // addera antalen
-                    const priceSum = parseInt(newPrice) + parseInt(element.price); // och addera priset
-                    cartArr.splice(index, 1, {quantity: qtySum, product: element.product, price: priceSum}); // Ta bort produkten ur varukorgen och ersätt det med de nya värdena
+        // Slår ihop två produktbeställningar i localStorage
+        function mergeProduct(cartArr, targetProduct, newQty, newPrice) {
+            cartArr.forEach(function(element, index) { // Loopa igenom varukorgen (Local Storage)
+                if (element.product === targetProduct) { // IFALL produkten i varukorgen === produkten man lägger till
+                    const qtySum = newQty + element.quantity; // addera antalen
+                    const priceSum = newPrice + element.price; // och addera priset
+                    cartArr.splice(index, 1, {quantity: qtySum, product: targetProduct, price: priceSum}); // Ta bort produkten ur varukorgen och ersätt det med de nya värdena
                 };
             });
             localStorage.setItem("cartArr", JSON.stringify(cartArr)); // Skicka nya listan till Local Storage
-            createCart();
         };
         // Delete from local storage
-        function deleteItem(fruitItem) {
-            let product = fruitItem.firstChild.nextElementSibling.textContent;
-            let cartArr = JSON.parse(localStorage.getItem("cartArr"));
-
-            cartArr.forEach(function(fruit, index) {
-                if (fruit.product === product) {
+        function deleteItem(cartArr, targetProduct) {
+            cartArr.forEach((element, index) => {
+                if (element.product === targetProduct) {
                     cartArr.splice(index, 1);
-                } else {
-                    console.log( "Frukten från localStorage och varokorgen stämmer inte");
                 };
             });
             localStorage.setItem("cartArr", JSON.stringify(cartArr));
         };
-
+        // Hämtar produktinfo från JSON-filen
         function getProductInfo(targetProduct) {
             return productList.find(element => element.productName === targetProduct);
         };
