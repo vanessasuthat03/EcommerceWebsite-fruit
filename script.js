@@ -4,26 +4,26 @@ $(document).ready(function () {
             localStorage.setItem("cartArr", "[]");
         };
         for (let i = 0; i < productList.length; i++) { // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (productList)
-            const etiquetteHolder = $("#etiquette-holder");
+            const etiquetteHolder = $("#etiquette-wrapper");
             etiquetteHolder.append(
-                `<div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="${productList[i].img}" alt="Card image cap>
+                `<li class="card">
+                    <img src="${productList[i].img}">
                     <div class="card-body">
-                    <h3 class="card-title">${productList[i].productName}</h3>
-                    <p class="card-text">${productList[i].price}</p>
-                    <input id="${i}" class="inputQuant" type="number" min="1" max="999" value="1">
-                    <br>
-                    <button class="addBtn btn btn-success btn-block" id="add${i}">Lägg till</button>
-                </div`
+                        <h3 class="card-title">${productList[i].productName}</h3>
+                        <p class="card-text">${productList[i].price} kr</p>
+                        <input id="${i}" class="inputQuant" type="number" min="1" value="1">
+                        <button class="addBtn btn btn-primary" id="add${i}">Lägg till</button>
+                    </div>
+                </li`
             );
         };
         createCart(); // 2. Loopa också ut varukorgen
 
-        $(".addBtn").click(function (addBtn) {
+        $(".addBtn").click(function () {
             addToCart(this);
         });
 
-        $("#toggle").click(function () {
+        $("#toggle-cart-btn").click(function () {
             $(".cart").slideToggle(800);
         });
 
@@ -33,9 +33,9 @@ $(document).ready(function () {
         });
 
         $(".inputQuant").on("input", function () {
-            let $inputField = $(this);
-            let $price = $inputField.siblings("p");
-            let unitPrice = parseInt(productList[parseInt($inputField.attr("id"))].price);
+            const $inputField = $(this);
+            const $price = $inputField.siblings("p");
+            const unitPrice = parseInt(productList[parseInt($inputField.attr("id"))].price);
 
             if ($inputField.val() === "") {
                 $inputField.val("1");
@@ -79,7 +79,7 @@ $(document).ready(function () {
                         showMessage("Produkten har lagts till i varukorgen.", "success");
                     };
                 } else {
-                    cartArr.unshift({ quantity: newQty, product: newProduct, price: newPrice }); // lägg in ett objekt med info om tillägget (i slutet av arrayen)
+                    cartArr.unshift({ quantity: newQty, product: newProduct, price: newPrice }); // lägg in ett objekt med info om tillägget (i början av arrayen)
                     localStorage.setItem("cartArr", JSON.stringify(cartArr)); // skicka arrayen till localStorage
                     showMessage("Produkten har lagts till i varukorgen.", "success");
                     createCart();
@@ -104,44 +104,46 @@ $(document).ready(function () {
             let totalCost = 0;
 
             for (let i = 0; i < cartArr.length; i++) {
-                content += `<tr>
-                        <td>${cartArr[i].product}</td>
-                        <td>
-                            <button class="decrease">-</button>
-                        <span>${cartArr[i].quantity}</span>
-                          <button class="increase">+</button>
+                content +=
+                    `<tr><td>${cartArr[i].product}</td><td>`;
+                if (cartArr[i].quantity != 1) {
+                    content += '<button class="decrease">-</button>';
+                };
+                content +=
+                    `<span>${cartArr[i].quantity}</span>
+                            <button class="increase">+</button>
                         </td>
-                        <td>${cartArr[i].price}</td>
-                        <td><button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</td>
+                        <td>${cartArr[i].price} kr</td>
+                        <td>
+                            <button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</button>
+                        </td>
                     </tr>`;
                 totalCost += parseInt(cartArr[i].price);
             };
-            $("#total").text("Total:" + " " + totalCost + " kr");
+            $("#total").text("Totalt:" + " " + totalCost + " kr");
             $cart.html(content);
 
             $(".decrease").click(function () {
                 const $btn = $(this);
-                const $qtyElement = $btn.next();
-                const qty = $qtyElement.text();
+                const qty = $btn.next().text();
                 const product = $btn.parent().prev().text();
                 const price = $btn.parent().next().text();
                 const newPrice = parseInt(price) - parseInt(getProductInfo(product).price);
+                const newQty = parseInt(qty) - 1;
 
-                $qtyElement.text(parseInt(qty) - 1);
-                replaceProduct(cartArr, product, qty, newPrice);
+                replaceProduct(cartArr, product, newQty, newPrice);
                 createCart();
             });
 
             $(".increase").click(function () {
                 $btn = $(this);
-                const $qtyElement = $btn.prev();
-                const qty = $qtyElement.text();
+                const qty = $btn.prev().text();
                 const product = $btn.parent().prev().text();
                 const price = $btn.parent().next().text();
                 const newPrice = parseInt(price) + parseInt(getProductInfo(product).price);
+                const newQty = parseInt(qty) + 1;
 
-                $qtyElement.text(parseInt(qty) + 1);
-                replaceProduct(cartArr, product, qty, newPrice);
+                replaceProduct(cartArr, product, newQty, newPrice);
                 createCart();
             });
         };
