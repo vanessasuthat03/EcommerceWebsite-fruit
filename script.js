@@ -18,11 +18,11 @@ $(document).ready(function() {
         };
         createCart(); // 2. Loopa också ut varukorgen
 
-        $(".addBtn").click(function(addBtn) {
+        $(".addBtn").click(function() {
             addToCart(this);
         });
 
-        $("#toggle").click(function() {
+        $("#toggle-cart-btn").click(function() {
             $(".cart").slideToggle(800);
         });
 
@@ -78,9 +78,9 @@ $(document).ready(function() {
                         showMessage("Produkten har lagts till i varukorgen.", "success");
                     };
                 } else {
-                    cartArr.unshift({quantity: newQty, product: newProduct, price: newPrice}); // lägg in ett objekt med info om tillägget (i slutet av arrayen)
+                    cartArr.unshift({quantity: newQty, product: newProduct, price: newPrice}); // lägg in ett objekt med info om tillägget (i början av arrayen)
                     localStorage.setItem("cartArr", JSON.stringify(cartArr)); // skicka arrayen till localStorage
-                    showMessage( "Produkten har lagts till i varukorgen.", "success");
+                    showMessage("Produkten har lagts till i varukorgen.", "success");
                     createCart();
                 };
             };
@@ -103,15 +103,19 @@ $(document).ready(function() {
             let totalCost = 0;
 
             for (let i = 0; i < cartArr.length; i++) {
-                content += `<tr>
-                        <td>${cartArr[i].product}</td>
-                        <td>
-                            <button class="decrease">-</button>
-                        <span>${cartArr[i].quantity}</span>
-                          <button class="increase">+</button>
+                content += 
+                    `<tr><td>${cartArr[i].product}</td><td>`;
+                if (cartArr[i].quantity !== 1) {
+                    content += '<button class="decrease">-</button>';
+                };
+                content += 
+                            `<span>${cartArr[i].quantity}</span>
+                            <button class="increase">+</button>
                         </td>
                         <td>${cartArr[i].price}</td>
-                        <td><button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</td>
+                        <td>
+                            <button id="dltBtn" class="btn btn-danger btn-sx delete">Delete</button>
+                        </td>
                     </tr>`;
                 totalCost += parseInt(cartArr[i].price);
             };
@@ -120,27 +124,25 @@ $(document).ready(function() {
 
             $(".decrease").click(function() {
                 const $btn = $(this);
-                const $qtyElement = $btn.next();
-                const qty = $qtyElement.text();
+                const qty = $btn.next().text();
                 const product = $btn.parent().prev().text();
                 const price = $btn.parent().next().text();
                 const newPrice = parseInt(price) - parseInt(getProductInfo(product).price);
+                const newQty = parseInt(qty) - 1;
 
-                $qtyElement.text(parseInt(qty) - 1);
-                replaceProduct(cartArr, product, qty, newPrice);
+                replaceProduct(cartArr, product, newQty, newPrice);
                 createCart();
             });
 
             $(".increase").click(function() {
                 $btn = $(this);
-                const $qtyElement = $btn.prev();
-                const qty = $qtyElement.text();
+                const qty = $btn.prev().text();
                 const product = $btn.parent().prev().text();
                 const price = $btn.parent().next().text();
                 const newPrice = parseInt(price) + parseInt(getProductInfo(product).price);
+                const newQty = parseInt(qty) + 1;
 
-                $qtyElement.text(parseInt(qty) + 1);
-                replaceProduct(cartArr, product, qty, newPrice);
+                replaceProduct(cartArr, product, newQty, newPrice);
                 createCart();
             });
         };

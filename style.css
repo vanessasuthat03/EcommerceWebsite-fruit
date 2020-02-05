@@ -2,6 +2,11 @@ body {
     background: goldenrod;
 }
 
+nav > img {
+    height: 50px;
+    width: 50px;
+}
+
 section {
     display: grid;
     grid-template: 1fr / 2fr 1fr;
