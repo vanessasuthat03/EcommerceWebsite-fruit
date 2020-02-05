@@ -177,7 +177,7 @@ $(document).ready(function() {
         };
         // Hämtar produktinfo från JSON-filen
         function getProductInfo(targetProduct) {
-            return productList.find(element => element.productName === targetProduct);
+            return productList.find(element => element.product === targetProduct);
         };
     });
 });
