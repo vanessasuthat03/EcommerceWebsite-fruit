@@ -28,6 +28,10 @@ ul {
     padding: 0;
 }
 
+.hide {
+    display: none;
+}
+
 /* #etiquette-wrapper {
     display: flex;
     flex-wrap: wrap;
