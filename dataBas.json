@@ -1,12 +1,12 @@
 [
-    {"id": "1", "product": "Melon", "price": 5, "img": "image/redApple.png"},    
-    {"id": "2", "product": "Pineapple", "price": 9, "img": "image/redApple.png"},
-    {"id": "3", "product": "Kiwi", "price": 5, "img": "image/redApple.png"},    
-    {"id": "4", "product": "Mango", "price": 4, "img": "image/redApple.png"},    
-    {"id": "5", "product": "Papaya", "price": 21, "img": "image/redApple.png"},
-    {"id": "6", "product": "Grapes", "price": 20, "img": "image/redApple.png"},    
-    {"id": "7", "product": "Orange", "price": 11, "img": "image/redApple.png"},    
-    {"id": "8", "product": "Coconut", "price": 3, "img": "image/redApple.png"},    
-    {"id": "9", "product": "Pear", "price": 10, "img": "image/redApple.png"},    
-    {"id": "10", "product": "Apple", "price": 22, "img": "image/redApple.png"}
+    {"product": "Melon", "price": 5, "img": "image/redApple.png"},    
+    {"product": "Pineapple", "price": 9, "img": "image/redApple.png"},
+    {"product": "Kiwi", "price": 5, "img": "image/redApple.png"},    
+    {"product": "Mango", "price": 4, "img": "image/redApple.png"},    
+    {"product": "Papaya", "price": 21, "img": "image/redApple.png"},
+    {"product": "Grapes", "price": 20, "img": "image/redApple.png"},    
+    {"product": "Orange", "price": 11, "img": "image/redApple.png"},    
+    {"product": "Coconut", "price": 3, "img": "image/redApple.png"},    
+    {"product": "Pear", "price": 10, "img": "image/redApple.png"},    
+    {"product": "Apple", "price": 22, "img": "image/redApple.png"}
 ]

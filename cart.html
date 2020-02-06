@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style2.css" />
     <title>Document</title>
 </head>
 <body>
@@ -20,17 +20,19 @@
         </thead>
         <tbody></tbody>
     </table>
+    <span></span>
     <script>
     
         $(document).ready(function() {
             $.getJSON("dataBas.json", function(productList) {
                 const $table = $('tbody')
                 const cartArr = JSON.parse(localStorage.getItem('cartArr'))
-                console.log(cartArr)
+                let totalCost = 0;
+                
                 for(let i = 0; i < cartArr.length; i++) {
-                    console.log(cartArr[i])
-                    console.log(cartArr[i].product)
                     const imgUrl = getProductInfo(cartArr[i].product).img;
+
+                    totalCost += cartArr[i].price;
                     $table.append(
                         `<tr>
                             <td><img src="${imgUrl}"></td>
@@ -40,6 +42,8 @@
                         </tr>`
                     );
                 };
+                $('span').html(`Totalt: ${totalCost}`)
+
                 function getProductInfo(targetProduct) {
                     return productList.find(element => element.product === targetProduct);
                 };
