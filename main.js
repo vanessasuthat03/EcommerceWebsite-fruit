@@ -1,8 +1,5 @@
 $(document).ready(function() {
-    $.getJSON("dataBas.json", function(productList) {
-        if (localStorage.getItem("cartArr") === null) { // om cartArr inte finns i LocalStorage
-            localStorage.setItem("cartArr", "[]"); // lägg till en tom array
-        };
+    $.getJSON("dataBase.json", function(productList) {
         for (let i = 0; i < productList.length; i++) { // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (productList)
             const etiquetteHolder = $("#etiquette-wrapper");
 
@@ -15,10 +12,14 @@ $(document).ready(function() {
                         <input class="inputQuant" type="number" min="1" value="1">
                         <button class="addBtn btn btn-primary">Lägg till</button>
                     </div>
-                </li`
+                </li>`
             );
         };
-        createCart(); // 2. Loopa också ut varukorgen
+        if (localStorage.getItem("cartArr") === null) { // om cartArr inte finns i LocalStorage
+            localStorage.setItem("cartArr", "[]"); // lägg till en tom array
+        } else {
+            createCart(); // 2. Loopa också ut varukorgen
+        };
 
         // 3. Lägg till eventListeners:
         $(".addBtn").click(function() { // lägger click-event på alla "Lägg-till"-knappar
@@ -40,7 +41,7 @@ $(document).ready(function() {
             const product = $inputField.siblings("h3").text();
             const unitPrice = getProductInfo(product).price;
             
-            if ($inputField.val() === "") { // om inputvalue är tomt
+            if ($inputField.val() === "" || $inputField.val() < 1) { // om inputvalue är tomt
                 $inputField.val("1"); // ändra direkt till value: 1
             };
             $price.text(`${$inputField.val() * unitPrice} kr`); // ändra priset utifrån antalet i input-fältet
@@ -52,28 +53,23 @@ $(document).ready(function() {
             const qty = parseInt($inputField.val());
             const product = $(addBtn).siblings("h3").text();
             const price = getProductInfo(product).price * qty;
+            const cartArr = JSON.parse(localStorage.getItem("cartArr")); // hämta nuvarande localStorage
 
-            if (qty === 0) { // Om input-fältets value är 0
-                showMessage("Vänligen ange antal Tack!", "danger"); // skriv ut danger-meddelande
-            } else { // annars
-                const cartArr = JSON.parse(localStorage.getItem("cartArr")); // hämta nuvarande localStorage
-
-                if (duplicateExists(cartArr, product)) { // om den hittar en produkt-dublett
-                    if (confirm("Vill du ersätta? OK=ERSÄTT  AVBRYT=MERGE")) { // om man väljer att ersätta beställningen
-                        replaceProduct(cartArr, product, qty, price); // ersätt den nya produktbeställningen med den gamla, i localStorage
-                        createCart() // rita ut varukorgen utifrån localStorage
-                        showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
-                    } else { // annars om man väljer att lägga ihop beställningarna
-                        mergeProduct(cartArr, product, qty, price); // lägg ihop dem i localStorage
-                        createCart() // rita ut varukorgen utifrån localStorage
-                        showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
-                    };
-                } else { // om det inte finns en produktdublett
-                    cartArr.unshift({quantity: qty, product: product, price: price}); // lägg in ett objekt med info om tillägget (i början av arrayen)
-                    localStorage.setItem("cartArr", JSON.stringify(cartArr)); // skicka arrayen till localStorage
-                    createCart(); // rita ut varukorgen utifrån localStorage
+            if (duplicateExists(cartArr, product)) { // om den hittar en produkt-dublett
+                if (confirm("Vill du ersätta? OK=ERSÄTT  AVBRYT=MERGE")) { // om man väljer att ersätta beställningen
+                    replaceProduct(cartArr, product, qty, price); // ersätt den nya produktbeställningen med den gamla, i localStorage
+                    createCart() // rita ut varukorgen utifrån localStorage
+                    showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
+                } else { // annars om man väljer att lägga ihop beställningarna
+                    mergeProduct(cartArr, product, qty, price); // lägg ihop dem i localStorage
+                    createCart() // rita ut varukorgen utifrån localStorage
                     showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
                 };
+            } else { // om det inte finns en produktdublett
+                cartArr.unshift({quantity: qty, product: product, price: price}); // lägg in ett objekt med info om tillägget (i början av arrayen)
+                localStorage.setItem("cartArr", JSON.stringify(cartArr)); // skicka arrayen till localStorage
+                createCart(); // rita ut varukorgen utifrån localStorage
+                showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
             };
             $inputField.val(1) // ändra tillbaks input-value till 1
             $priceElement.text(`${getProductInfo(product).price} kr`) // ändra tillbaka priset till styck-priset
@@ -83,13 +79,7 @@ $(document).ready(function() {
             $('table').before(`<div class="alert alert-${className}">${message}</div>`); // Lägg till meddelande-element i varukorgen
             const $alertElement = $('.alert');
 
-            // const div = document.createElement("div");
-            // div.className = `alert alert-${className}`;
-            // div.appendChild(document.createTextNode(message));
-            // const cart = document.querySelector(".cart");
-            // const table = document.querySelector("table");
-            // cart.insertBefore(div, table);
-            setTimeout(() => $alertElement.remove(), 3000); // ta bort meddelande-elementet efter 3 sekunder
+            setTimeout(() => $alertElement.remove(), 2000); // ta bort meddelande-elementet efter 3 sekunder
         };
         
         function createCart() { // Skapar varukorgen i HTML utifrån localStorage
