@@ -45,48 +45,47 @@ $(document).ready(function() {
         });
         // Lägger till en produktbeställning i localStorage
         function addToCart(addBtn) {
-            const newQty = parseInt($(addBtn).siblings("input").val());
-            const newProduct = $(addBtn).siblings("h3").text();
-            const newPrice = parseInt(getProductInfo(newProduct).price);
+            const $inputField = $(addBtn).siblings("input");
+            const $priceElement = $(addBtn).siblings("p");
+            const qty = parseInt($inputField.val());
+            const product = $(addBtn).siblings("h3").text();
+            const price = getProductInfo(product).price * qty;
 
-            if (newQty === "0") {
+            if (qty === 0) {
                 showMessage("Vänligen ange antal Tack!", "danger");
             } else {
                 const cartArr = JSON.parse(localStorage.getItem("cartArr")); // hämta nuvarande localStorage
-                if (duplicateExists(cartArr, newProduct)) { // om den hittar en produkt-dublett
+                if (duplicateExists(cartArr, product)) { // om den hittar en produkt-dublett
                     if (confirm("Vill du ersätta? OK=ERSÄTT  AVBRYT=MERGE")) {
-                        replaceProduct(cartArr, newProduct, newQty, newPrice);
+                        replaceProduct(cartArr, product, qty, price);
                         createCart()
                         showMessage("Produkten har lagts till i varukorgen.", "success");
                     } else {
-                        mergeProduct(cartArr, newProduct, newQty, newPrice);
+                        mergeProduct(cartArr, product, qty, price);
                         createCart()
                         showMessage("Produkten har lagts till i varukorgen.", "success");
                     };
                 } else {
-                    cartArr.unshift({quantity: newQty, product: newProduct, price: newPrice}); // lägg in ett objekt med info om tillägget (i början av arrayen)
+                    cartArr.unshift({quantity: qty, product: product, price: price}); // lägg in ett objekt med info om tillägget (i början av arrayen)
                     localStorage.setItem("cartArr", JSON.stringify(cartArr)); // skicka arrayen till localStorage
                     createCart();
                     showMessage("Produkten har lagts till i varukorgen.", "success");
                 };
             };
+            $inputField.val(1)
+            $priceElement.text(`${getProductInfo(product).price} kr`)
         };
         // Lägger till popup message
         function showMessage(message, className) {
-            const $alertElement = $('.alert')
-            $alertElement.text(message)
-            $alertElement.addClass(`alert-${className}`)
-            $alertElement.removeClass('hide')
+            $('table').before(`<div class="alert alert-${className}">${message}</div>`);
+            const $alertElement = $('.alert');
             // const div = document.createElement("div");
             // div.className = `alert alert-${className}`;
             // div.appendChild(document.createTextNode(message));
             // const cart = document.querySelector(".cart");
             // const table = document.querySelector("table");
             // cart.insertBefore(div, table);
-            setTimeout(() => {
-                $alertElement.removeClass(`alert-${className}`);
-                $alertElement.addClass('hide');
-            }, 3000);
+            setTimeout(() => $alertElement.remove(), 3000);
         };
         // Skapar varukorgen i HTML utifrån localStorage
         function createCart() {
