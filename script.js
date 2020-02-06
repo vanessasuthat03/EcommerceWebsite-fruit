@@ -147,7 +147,7 @@ $(document).ready(function() {
         };
         // Ersätter en produktbeställning med den nya, i localStorage
         function replaceProduct(cartArr, targetProduct, newQty, newPrice) {
-            cartArr.forEach(function(element, index) { // Loopa igenom varukorgen (Local Storage)
+            cartArr.forEach((element, index) => { // Loopa igenom varukorgen (Local Storage)
                 if (element.product === targetProduct) { // IFALL produkten i varukorgen === produkten man lägger till
                     cartArr.splice(index, 1, {quantity: newQty, product: targetProduct, price: newPrice}); // ta bort produkten ur varukorgen
                 };
@@ -156,7 +156,7 @@ $(document).ready(function() {
         };
         // Slår ihop två produktbeställningar i localStorage
         function mergeProduct(cartArr, targetProduct, newQty, newPrice) {
-            cartArr.forEach(function(element, index) { // Loopa igenom varukorgen (Local Storage)
+            cartArr.forEach((element, index) => { // Loopa igenom varukorgen (Local Storage)
                 if (element.product === targetProduct) { // IFALL produkten i varukorgen === produkten man lägger till
                     const qtySum = newQty + element.quantity; // addera antalen
                     const priceSum = newPrice + element.price; // och addera priset
