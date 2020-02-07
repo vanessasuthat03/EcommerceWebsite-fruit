@@ -154,6 +154,7 @@ h3 {
     
 }
 
+<<<<<<< HEAD:style.css
 h4 {
     background: rgb(59, 59, 59);
     color: white;
@@ -163,3 +164,13 @@ h4 {
 }
 
 
+=======
+.hide {
+    display: none;
+}
+
+/* #etiquette-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+} */
+>>>>>>> 6405039c1c8a79cd0a93eaf7b79c4155a22084d1:style1.css
