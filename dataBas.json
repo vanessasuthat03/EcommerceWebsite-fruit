@@ -1,12 +1,62 @@
 [
-    {"id": "1", "productName": "Melon", "price": "5", "img": "image/redApple.png"},    
-    {"id": "2", "productName": "Pineapple", "price": "9", "img": "image/redApple.png"},
-    {"id": "3", "productName": "Kiwi", "price": "5", "img": "image/redApple.png"},    
-    {"id": "4", "productName": "Mango", "price": "4", "img": "image/redApple.png"},    
-    {"id": "5", "productName": "Papaya", "price": "21", "img": "image/redApple.png"},
-    {"id": "6", "productName": "Grapes", "price": "20", "img": "image/redApple.png"},    
-    {"id": "7", "productName": "Orange", "price": "11", "img": "image/redApple.png"},    
-    {"id": "8", "productName": "Coconut", "price": "3", "img": "image/redApple.png"},    
-    {"id": "9", "productName": "Pear", "price": "10", "img": "image/redApple.png"},    
-    {"id": "10", "productName": "Apple", "price": "22", "img": "image/redApple.png"}
+    {
+        "id": "1",
+        "productName": "Melon",
+        "price": "25",
+        "img": "/image/melon.jpg"
+    },
+    {
+        "id": "2",
+        "productName": "Pineapple",
+        "price": "29",
+        "img": "image/pineapple.jpg"
+    },
+    {
+        "id": "3",
+        "productName": "Kiwi",
+        "price": "8",
+        "img": "image/kiwi.jpg"
+    },
+    {
+        "id": "4",
+        "productName": "Mango",
+        "price": "10",
+        "img": "image/mango.jpg"
+    },
+    {
+        "id": "5",
+        "productName": "Banana",
+        "price": "5",
+        "img": "image/banana.jpg"
+    },
+    {
+        "id": "6",
+        "productName": "Grapes",
+        "price": "20",
+        "img": "image/grapes.jpg"
+    },
+    {
+        "id": "7",
+        "productName": "Orange",
+        "price": "11",
+        "img": "image/orange.jpg"
+    },
+    {
+        "id": "8",
+        "productName": "Passion fruit",
+        "price": "7",
+        "img": "image/passion_fruit.jpg"
+    },
+    {
+        "id": "9",
+        "productName": "Pear",
+        "price": "7",
+        "img": "image/pear.jpg"
+    },
+    {
+        "id": "10",
+        "productName": "Apple",
+        "price": "5",
+        "img": "image/apple.jpg"
+    }
 ]
