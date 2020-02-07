@@ -16,7 +16,10 @@ header {
  height: 600px;
  background-repeat: no-repeat;
  background-size: cover;
- /* width: 100%; */
+ /* position: sticky;
+ top: -500px;
+ z-index: 1; */
+
 }
 
 
@@ -31,27 +34,31 @@ section {
     height: 380px;
     /* justify-content: center; */
  } 
-
+/* frukt bild */
 .card img{
     
     object-fit: contain;
-    width: 100%;
-    justify-self: center;
+    width: 60%;
+    padding: 20px;
+
 }
-/* .imges { */
-    /* justify-self: center; */
-    /* text-align: center; */
-/* } */
+
 /*Fruitic  */
 h1 {
+    
+    width: 50%;
     color: #ffd700;
     padding-left: 70px;
     padding-top: 200px;
     font-size: 80px;
     font-family: 'Playfair Display', serif;
-    /* position: sticky;
-    z-index: 2;
-    top: 0; */
+    position: -webkit-sticky;
+    position: sticky;
+    z-index: 1;
+    /* top: -200px; */
+    top: -13rem;
+    
+   
 }
 /* Texten i header */
 h2{
@@ -62,6 +69,7 @@ h2{
     color: #ffd700;
     font-family: 'Dancing Script', cursive;
     font-size: 35px;
+ 
 }
 /* Frukt namn */
 h3 {
@@ -82,7 +90,8 @@ h3 {
     overflow: hidden;
     width: 400px;
     text-align: center;
-    justify-items: center;
+    align-items: center;
+   
 }
 /* inputruta */
 .inputQuant {
@@ -105,6 +114,7 @@ h3 {
     margin-left: 0px;
     width: 245px;
     height: 40px;
+    background: rgb(30, 179, 30);
 }
 
 /* varukorg */
@@ -116,6 +126,7 @@ h3 {
     /* border: 3px solid rgb(201, 199, 199); */
     border: 3px solid rgb(59, 59, 59);
     border-radius: 10px;
+    padding-bottom: 30px;
 
 }
 /* kundvagn */
@@ -125,10 +136,11 @@ h3 {
     float: right;
     margin-top: 25px;
     margin-right: 60px;
+    z-index: 10;
   
 }
 /* Delete hela varukorgen */
-#emptyCart {
+#emptyCartBtn {
     border-radius: 50px;
     /* background: rgb(241, 106, 106); */
     height: 30px;
@@ -137,15 +149,15 @@ h3 {
     font-size: 17px;
     color: red;
     border: 1px solid black;
-    margin-left: 120px;
+    margin-left: 80px;
 }
 
 /* Delete knappar */
-#dltBtn {
+.dltBtn {
     background: rgb(238, 123, 123);
     border-radius: 100px;
     padding: 0;
-    margin-left: 20px;
+    margin-left: 27px;
     padding: 5px;
 }
 
@@ -154,7 +166,6 @@ h3 {
     
 }
 
-<<<<<<< HEAD:style.css
 h4 {
     background: rgb(59, 59, 59);
     color: white;
@@ -163,14 +174,20 @@ h4 {
     font-size: 25px;
 }
 
+/* bekräfta */
+.order {
+    background: rgb(30, 179, 30);
+    border-radius: 80px;
+    margin-left: 40px;
+    color: white;
+    padding: 12px 30px;
+    margin-bottom: 0px;
 
-=======
-.hide {
-    display: none;
 }
 
-/* #etiquette-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-} */
->>>>>>> 6405039c1c8a79cd0a93eaf7b79c4155a22084d1:style1.css
+#total {
+    font-size: 18px;
+    margin-left: 25px;
+}
+
+

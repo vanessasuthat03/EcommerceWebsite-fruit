@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
 
 <head>
     <meta charset="UTF-8" />
@@ -11,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style1.css" />
     <title>Test egen</title>
 </head>
 
@@ -32,69 +31,25 @@
         <div class="cart-wrapper">
             <div class="cart">
                 <h4>Varukorg</h4>
-                <table id="getLocal" class="table table-striped table-hover table-bordered">
+                <table class="table table-striped table-hover table-bordered">
                     <thead class=rubrik>
                         <tr>
-                            <th>Produkt</th>
-                            <th>Antal</th>
-                            <th>Pris</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Price</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody id="cart-items-holder"></tbody>
                 </table>
                 <span id="total">Totalt:</span>
-                <button id="emptyCart">Töm varukorgen</button>
+                <button id="emptyCartBtn">Delete Basket</button>
+                <a class="order" href="yourOrder.html">Order</a>
             </div>
         </div>
     </section>
-    <a href="dataBas.json">JSON</a>
-    <script src="script.js"></script>
+    <a href="dataBase.json">JSON</a>
+    <script src="main.js"></script>
 </body>
 
-=======
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="style1.css"/>
-        <title>Vanessas färska frukter</title>
-    </head>
-    <body>
-        <nav class="navbar navbar-light bg-light"> 
-            <img id="toggle-cart-btn" src="./image/supermarket.svg"></button>
-        </nav>
-        <header>
-            <h1>Exotic.se</h1>
-        </header>
-        <h2>Sveriges största utbud av frukter</h2>
-        <section>
-            <ul id="etiquette-wrapper" class="d-flex justify-content-center flex-wrap"></ul>
-            <div class="cart-wrapper">
-                <div class="cart">
-                    <h4>Varukorg</h4>
-                    <table class="table table-striped table-bordered">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Produkt</th>
-                                <th>Antal</th>
-                                <th>Pris</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart-items-holder"></tbody>
-                    </table>
-                    <span id="total">Totalt:</span>
-                    <button id="emptyCartBtn">Rensa varukorg</button>
-                    <a href="yourOrder.html">Beställ</a>
-                </div>
-            </div>
-        </section>
-        <a href="dataBase.json">JSON</a>
-        <script src="main.js"></script>
-    </body>
->>>>>>> 6405039c1c8a79cd0a93eaf7b79c4155a22084d1
 </html>
