@@ -6,16 +6,21 @@ $(document).ready(function () {
         for (let i = 0; i < productList.length; i++) { // 1. Loopa ut alla etiketter med respektive produkt, hämtade från json-filen (productList)
             const etiquetteHolder = $("#etiquette-wrapper");
             etiquetteHolder.append(
-                `<li class="card">
-                    <img src="${productList[i].img}">
+
+
+                `<div class="card" style="width: 22rem;">
+              
+                <img class="image" src="${productList[i].img}">
                     <div class="card-body">
                         <h3 class="card-title">${productList[i].productName}</h3>
                         <p class="card-text">${productList[i].price} kr</p>
                         <input id="${i}" class="inputQuant" type="number" min="1" value="1">
-                        <button class="addBtn btn btn-primary" id="add${i}">Lägg till</button>
+                        <button class="addBtn btn btn-success" id="add${i}">Lägg till</button>
                     </div>
-                </li`
+                </div`
+
             );
+            //har lagt till div runt img. vs
         };
         createCart(); // 2. Loopa också ut varukorgen
 
@@ -195,3 +200,5 @@ $(document).ready(function () {
         };
     });
 });
+
+// kolla .replace finns i javascript i string
