@@ -5,7 +5,7 @@
         "img": "/image/melon.jpg"
     },
     {
-        "product": "Pineapple",
+        "product": "Ananas",
         "price": 29,
         "img": "image/pineapple.jpg"
     },
@@ -20,32 +20,32 @@
         "img": "image/mango.jpg"
     },
     {
-        "product": "Banana",
+        "product": "Banan",
         "price": 5,
         "img": "image/banana.jpg"
     },
     {
-        "product": "Grapes",
+        "product": "Vindruvor",
         "price": 20,
         "img": "image/grapes.jpg"
     },
     {
-        "product": "Orange",
+        "product": "Apelsin",
         "price": 11,
         "img": "image/orange.jpg"
     },
     {
-        "product": "Passion fruit",
+        "product": "Passionsfrukt",
         "price": 7,
         "img": "image/passion_fruit.jpg"
     },
     {
-        "product": "Pear",
+        "product": "Päron",
         "price": 7,
         "img": "image/pear.jpg"
     },
     {
-        "product": "Apple",
+        "product": "Äpple",
         "price": 5,
         "img": "image/apple.jpg"
     }

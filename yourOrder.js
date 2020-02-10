@@ -10,16 +10,16 @@ $(document).ready(function() {
             totalCost += cartArr[i].price;
             $table.append(
                 `<tr>
-                    <td><img src="${imgUrl}"></td>
+                    <td class ="fruitImg"><img src="${imgUrl}"></td>
                     <td>${cartArr[i].product}</td>
-                    <td>${cartArr[i].quantity}</td>
-                    <td>${cartArr[i].price}</td>
+                    <td>${cartArr[i].quantity} st</td>
+                    <td>${cartArr[i].price} kr</td>
                 </tr>`
             );
         };
-        $('span').html(`Totalt: ${totalCost}`);
+        $('span').html(`Totalt: ${totalCost} kr`);
 
-        $('a').click(function() {
+        $('button').click(function() {
             localStorage.setItem('cartArr', '[]');
         });
 

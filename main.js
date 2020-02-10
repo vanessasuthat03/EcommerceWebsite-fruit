@@ -10,7 +10,7 @@ $(document).ready(function () {
                         <h3 class="card-title">${productList[i].product}</h3>
                         <p class="card-text">${productList[i].price} kr</p>
                         <input class="inputQuant" type="number" min="1" value="1">
-                        <button class="addBtn btn btn-primary">Add to Basket</button>
+                        <button class="addBtn btn btn-primary">Lägg till</button>
                     </div>
                 </li>`
             );
@@ -100,12 +100,12 @@ $(document).ready(function () {
                         </td>
                         <td>${cartArr[i].price} kr</td>
                         <td>
-                            <button class="dltBtn btn btn-danger btn-sx delete">Delete</button>
+                            <button class="dltBtn btn btn-danger btn-sx delete">Ta bort</button>
                         </td>
                     </tr>`;
                 totalCost += cartArr[i].price; // lägger ihop kostnaden
             };
-            $("#total").text("Subtotal:" + " " + totalCost + " kr"); // lägg till total-summan i HTML
+            $("#total").text("Totalt:" + " " + totalCost + " kr"); // lägg till total-summan i HTML
             $cart.html(content); // lägg til varukorgen i HTML
 
             $(".decrease").click(function () { // lägger click-event på alla decrease-knappen
