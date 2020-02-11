@@ -9,7 +9,7 @@ nav {
     position: sticky;
     top: 0;
     background:  #F2EEE9;
-    z-index: 1;
+    z-index: 2;
 }
 header {
  background-image: url(/image/food-photographer-jennifer-pallian-AZJjIlbZM60-unsplash.jpg);
@@ -54,7 +54,7 @@ h1 {
     font-family: 'Playfair Display', serif;
     position: -webkit-sticky;
     position: sticky;
-    z-index: 1;
+    z-index: 10;
     /* top: -200px; */
     top: -13rem;
     
