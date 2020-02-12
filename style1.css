@@ -56,11 +56,11 @@ h1 {
     padding-top: 200px;
     font-size: 80px;
     font-family: 'Playfair Display', serif;
-    position: -webkit-sticky;
+    /* position: -webkit-sticky;
     position: sticky;
     z-index: 10;
-    /* top: -200px; */
-    top: -13rem;
+    top: -200px;
+    top: -13rem; */
     
    
 }
@@ -211,4 +211,14 @@ h4 {
 
 tbody td {
     font-weight: bold;
+}
+
+.logo {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translate(0, -50%);
+    color: #ffd700;
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
 }
