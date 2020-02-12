@@ -9,7 +9,7 @@ $(document).ready(function () {
                     <div class="card-body">
                         <h3 class="card-title">${productList[i].product}</h3>
                         <p class="card-text">${productList[i].price} kr</p>
-                        <input class="inputQuant" type="number" min="1" value="1">
+                        <input class="inputQuant" type="number" value="1">
                         <button class="addBtn btn btn-primary">Lägg till</button>
                     </div>
                 </li>`
@@ -35,16 +35,35 @@ $(document).ready(function () {
             createCart(); // ritar ut varukorgen i HTML:n utifrån localStorage
         });
 
+        $(".inputQuant").on("focus", function() {
+            const $inputField = $(this);
+            if($inputField.val() === "1") {
+                $inputField.val('');
+            }
+        });
+
+        $(".inputQuant").on("blur", function() {
+            const $inputField = $(this);
+            if($inputField.val() === "") {
+                $inputField.val('1');
+            }
+        });
+
         $(".inputQuant").on("input", function () { // lägger input-event på alla input-fält
             const $inputField = $(this); // $(this) konverterar input-elementet till jQuery-element så vi kan använda jQuery-metoder 
             const $price = $inputField.siblings("p");
             const product = $inputField.siblings("h3").text();
             const unitPrice = getProductInfo(product).price;
 
-            if ($inputField.val() === "" || $inputField.val() < 1) { // om inputvalue är tomt
+            if ($inputField.val() === "0" || $inputField.val() < 0) { // om inputvalue är tomt
                 $inputField.val("1"); // ändra direkt till value: 1
             };
-            $price.text(`${$inputField.val() * unitPrice} kr`); // ändra priset utifrån antalet i input-fältet
+            if ($inputField.val() !== "") {
+                $price.text(`${$inputField.val() * unitPrice} kr`);
+            } else {
+                $price.text(`${getProductInfo(product).price} kr`);
+            };
+             // ändra priset utifrån antalet i input-fältet
         });
 
         function addToCart(addBtn) { // Lägger till en produktbeställning i localStorage
