@@ -8,17 +8,16 @@ nav {
     height: 100px;
     position: sticky;
     top: 0;
-    background: rgb(59, 59, 59);
-    z-index: 1;
+    /* background:  #F2EEE9; */
+    background: black;
+    z-index: 2;
+   
 }
 header {
  background-image: url(/image/food-photographer-jennifer-pallian-AZJjIlbZM60-unsplash.jpg);
  height: 600px;
  background-repeat: no-repeat;
  background-size: cover;
- /* position: sticky;
- top: -500px;
- z-index: 1; */
 
 }
 
@@ -26,7 +25,14 @@ header {
 section {
     display: grid;
     grid-template: 1fr / 1fr 400px;
-    background-image: url(/image/bodyBack2.jpg)
+    background: rgb(197, 195, 195);
+    margin-bottom: 2%;
+    /* background: rgb(241, 240, 240); */
+
+
+    /* background-image: url(/image/bodyBack4.jpg); */
+    /* background-image: url(/image/bodyBack2.jpg); */
+    /* background-image: url(/image/bodyBack3.jpg); */
 
 }
 
@@ -54,7 +60,7 @@ h1 {
     font-family: 'Playfair Display', serif;
     position: -webkit-sticky;
     position: sticky;
-    z-index: 1;
+    z-index: 10;
     /* top: -200px; */
     top: -13rem;
     
@@ -88,9 +94,14 @@ h3 {
     margin: 30px;
     border-radius: 20px;
     overflow: hidden;
-    width: 400px;
+    width: 350px;
     text-align: center;
     align-items: center;
+   
+
+    -webkit-box-shadow: 10px 9px 25px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 9px 25px -3px rgba(0,0,0,0.75);
+    box-shadow: 10px 9px 25px -3px rgba(0,0,0,0.75);
    
 }
 /* inputruta */
@@ -137,8 +148,10 @@ h3 {
     margin-top: 25px;
     margin-right: 60px;
     z-index: 10;
-  
+   
 }
+
+
 /* Delete hela varukorgen */
 #emptyCartBtn {
     border-radius: 50px;
@@ -190,5 +203,10 @@ h4 {
     font-size: 18px;
     margin-left: 25px;
 }
+#jsonLink {
 
+    font-size: 40px;
+    margin-left: 10%;
+    padding-bottom: 2%;
+}
 
