@@ -9,7 +9,7 @@ nav {
     position: sticky;
     top: 0;
     /* background:  #F2EEE9; */
-    background: black;
+    background: rgb(59, 59, 59);
     z-index: 2;
    
 }
@@ -25,7 +25,7 @@ header {
 section {
     display: grid;
     grid-template: 1fr / 1fr 400px;
-    background: rgb(197, 195, 195);
+    background: rgb(240, 240, 240);
     margin-bottom: 2%;
     /* background: rgb(241, 240, 240); */
 
@@ -44,14 +44,13 @@ section {
 .card img{
     
     object-fit: contain;
-    width: 60%;
-    padding: 20px;
+    width: 70%;
+    padding: 10px;
 
 }
 
 /*Fruitic  */
 h1 {
-    
     width: 50%;
     color: #ffd700;
     padding-left: 70px;
@@ -86,15 +85,16 @@ h3 {
 }
 /* produkter */
 #etiquette-wrapper{
-    padding: 0;
+    padding-top: 90px;
+    padding-left: 0;
     
 }
 /* Frukt box */
 .card {
-    margin: 30px;
+    margin: 10px;
     border-radius: 20px;
     overflow: hidden;
-    width: 350px;
+    width: 250px;
     text-align: center;
     align-items: center;
    
@@ -123,7 +123,7 @@ h3 {
     border-radius: 5px;
     padding: 0;
     margin-left: 0px;
-    width: 245px;
+    width: 200px;
     height: 40px;
     background: rgb(30, 179, 30);
 }
