@@ -56,7 +56,7 @@ $(document).ready(function () {
             const cartArr = JSON.parse(localStorage.getItem("cartArr")); // hämta nuvarande localStorage
 
             if (duplicateExists(cartArr, product)) { // om den hittar en produkt-dublett
-                if (confirm("Vill du ersätta? OK=ERSÄTT  AVBRYT=MERGE")) { // om man väljer att ersätta beställningen
+                if (confirm("Produkten finns redan i varukorgen. Vill du ersätta antal? \n OK = Ersätt antal \n Cancel = Lägg till antal")) { // om man väljer att ersätta beställningen
                     replaceProduct(cartArr, product, qty, price); // ersätt den nya produktbeställningen med den gamla, i localStorage
                     createCart() // rita ut varukorgen utifrån localStorage
                     showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
