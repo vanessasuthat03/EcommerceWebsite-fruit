@@ -64,7 +64,7 @@ $(document).ready(function () {
                     replaceProduct(cartArr, product, qty, price); // ersätt den nya produktbeställningen med den gamla, i localStorage
                     createCart() // rita ut varukorgen utifrån localStorage
                     showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
-                   
+
                 };
             } else { // om det inte finns en produktdublett
                 cartArr.unshift({ quantity: qty, product: product, price: price }); // lägg in ett objekt med info om tillägget (i början av arrayen)
