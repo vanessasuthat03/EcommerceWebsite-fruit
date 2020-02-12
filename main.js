@@ -56,14 +56,15 @@ $(document).ready(function () {
             const cartArr = JSON.parse(localStorage.getItem("cartArr")); // hämta nuvarande localStorage
 
             if (duplicateExists(cartArr, product)) { // om den hittar en produkt-dublett
-                if (confirm("Produkten finns redan i varukorgen. Vill du ersätta antal? \n OK = Ersätt antal \n Cancel = Lägg till antal")) { // om man väljer att ersätta beställningen
-                    replaceProduct(cartArr, product, qty, price); // ersätt den nya produktbeställningen med den gamla, i localStorage
-                    createCart() // rita ut varukorgen utifrån localStorage
-                    showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
-                } else { // annars om man väljer att lägga ihop beställningarna
+                if (confirm("Produkten finns redan i varukorgen. Vill du lägga till antal? \n OK = lägg till antal \n Cancel = Ersätt antal")) { // om man väljer att ersätta beställningen
                     mergeProduct(cartArr, product, qty, price); // lägg ihop dem i localStorage
                     createCart() // rita ut varukorgen utifrån localStorage
                     showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
+                } else { // annars om man väljer att lägga ihop beställningarna
+                    replaceProduct(cartArr, product, qty, price); // ersätt den nya produktbeställningen med den gamla, i localStorage
+                    createCart() // rita ut varukorgen utifrån localStorage
+                    showMessage("Produkten har lagts till i varukorgen.", "success"); // skriv ut success-meddelande
+                   
                 };
             } else { // om det inte finns en produktdublett
                 cartArr.unshift({ quantity: qty, product: product, price: price }); // lägg in ett objekt med info om tillägget (i början av arrayen)
