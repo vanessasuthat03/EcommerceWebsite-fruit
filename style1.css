@@ -8,7 +8,7 @@ nav {
     height: 100px;
     position: sticky;
     top: 0;
-    background:  #F2EEE9;
+    background: rgb(59, 59, 59);
     z-index: 1;
 }
 header {
@@ -80,7 +80,7 @@ h3 {
 }
 /* produkter */
 #etiquette-wrapper{
-    padding-top: 90px;
+    padding: 0;
     
 }
 /* Frukt box */
